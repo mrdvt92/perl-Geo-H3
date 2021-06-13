@@ -1,5 +1,11 @@
 Revision history for Perl extension Geo::H3.
 
+0.03 2021-06-13
+  - Updated lib/Geo/H3/Index.pm
+    - Added Methods: parent, children and hex_ring
+  - Added scripts/perl-Geo-H3-geo-to-googleearth.pl
+    - Requires: Path::Class, Geo::GoogleEarth::Pluggable, Geo::GoogleEarth::Pluggable::Plugin::Styles
+
 0.02 2021-06-03
   - Rewrite on top of Geo::H3::FFI
 

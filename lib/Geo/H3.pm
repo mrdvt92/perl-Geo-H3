@@ -49,10 +49,10 @@ sub h3 {
   my $index  = $data{'index'};
   my $string = $data{'string'};
   if ($index) {
-    return Geo::H3::Index->new(index => $index);
+    return Geo::H3::Index->new(index => $index, ffi => $self->ffi);
   } elsif ($string) {
     my $index = $self->ffi->stringToH3Wrapper($string) or die("Error: package $PACKAGE constructor h3 string invalid");
-    return Geo::H3::Index->new(index=>$index);
+    return Geo::H3::Index->new(index => $index, ffi => $self->ffi);
   } else {
     die("Error: package $PACKAGE constructor h3 requires either index or string");
   }
@@ -67,8 +67,9 @@ Returns a L<Geo::H3::Geo> object
 =cut
 
 sub geo {
-  my $self = shift;
-  my %data = @_;
+  my $self     = shift;
+  my %data     = @_;
+  $data{'ffi'} = $self->ffi unless exists $data{'ffi'};
   return Geo::H3::Geo->new(%data);
 };
 

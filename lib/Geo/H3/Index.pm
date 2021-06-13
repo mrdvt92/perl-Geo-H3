@@ -98,6 +98,66 @@ sub geo_boundary {
   return $self->{'geo_boundary'};
 }
 
+=head2 children
+
+Returns an array reference of L<Geo::H3::Index> objects
+
+  my $children = $h3->children; #next higer resolution
+  my $children = $h3->children(12); #isa ARRAY
+
+=cut
+
+sub children {
+  my $self       = shift;
+  my $resolution = shift || $self->resolution + 1;
+  unless ($self->{'children'}) {
+    my $indexes         = $self->ffi->h3ToChildrenWrapper($self->index, $resolution);
+    $self->{'children'} = [map {Geo::H3::Index->new(index=>$_)} @{$indexes}]; 
+  }
+  return $self->{'children'};
+}
+
+=head2 parent
+
+Returns a L<Geo::H3::Index> object parent of the H3 index.
+
+  my $parent = $h3->parent;    #next lower resolution
+  my $parent = $h3->parent(1); #isa Geo::H3::Index
+
+=cut
+
+sub parent {
+  my $self       = shift;
+  my $resolution = shift || $self->resolution - 1;
+  unless ($self->{'parent'}) {
+    my $index         = $self->ffi->h3ToParent($self->index, $resolution);
+    $self->{'parent'} = Geo::H3::Index->new(index=>$index);
+  }
+  return $self->{'parent'};
+}
+
+=head2 hex_ring
+
+Returns an array reference of L<Geo::H3::Index> objects
+
+  my $hexes = $h3->children; #default k = 1
+  my $hexes = $h3->children(5); #isa ARRAY
+
+=cut
+
+sub hex_ring {
+  my $self = shift;
+  my $k    = shift || 1;
+  unless ($self->{'hex_ring'}) {
+    my $indexes         = $self->ffi->hexRingWrapper($self->index, $k);
+    $self->{'hex_ring'} = [map {Geo::H3::Index->new(index=>$_)} @{$indexes}]; 
+  }
+  unless ($self->{'hex_ring'}) {
+    
+  }
+  return $self->{'hex_ring'};
+}
+
 =head2 isValid
 
 Returns non-zero if this is a valid H3 index.

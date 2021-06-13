@@ -1,5 +1,13 @@
 echo "Building README.md"
-pod2markdown lib/Geo/H3.pm > README.md &
+
+echo -ne                               > README.md
+for F in lib/Geo/H3.pm lib/Geo/H3/Index.pm lib/Geo/H3/Geo.pm lib/Geo/H3/GeoBoundary.pm
+do
+  echo "# File: $F"                   >> README.md
+  echo                                >> README.md
+  pod2markdown $F | sed -e 's/^#/##/' >> README.md
+  echo                                >> README.md
+done
+
 echo "Building README"
-pod2text     lib/Geo/H3.pm > README &
-wait
+cat README.md                          > README
