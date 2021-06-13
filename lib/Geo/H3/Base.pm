@@ -1,3 +1,64 @@
+package Geo::H3::Base;
+use strict;
+use warnings;
+use Geo::H3::FFI;
+
+our $VERSION = '0.01';
+our $PACKAGE = __PACKAGE__;
+
+=head1 NAME
+
+Geo::H3::Base - H3 Geospatial Hexagon Indexing System
+
+=head1 SYNOPSIS
+
+  use base qw{Geo::H3::Base};
+  my $gh3      = Geo::H3->new;
+  
+=head1 DESCRIPTION
+
+Perl API to the H3 Geospatial Hexagon Indexing System C library using libffi and FFI::Platypus.
+
+=head1 CONSTRUCTOR
+
+=head2 new
+
+  my $obj = Package::New->new(key=>$value, ...);
+
+=cut
+
+sub new {
+  my $this  = shift;
+  my $class = ref($this) ? ref($this) : $this;
+  my $self  = {@_};
+  bless $self, $class;
+  return $self;
+}
+
+=head1 OBJECT ACCESSORS
+
+=head2 ffi
+
+Returns Geo::H3::FFI object
+
+=cut
+
+sub ffi {
+  my $self       = shift;
+  $self->{'ffi'} = Geo::H3::FFI->new unless $self->{'ffi'};
+  return $self->{'ffi'};
+}
+
+=head1 SEE ALSO
+
+L<Geo::H3>
+
+=head1 AUTHOR
+
+Michael R. Davis
+
+=head1 COPYRIGHT AND LICENSE
+
 MIT License
 
 Copyright (c) 2020 Michael R. Davis
@@ -19,3 +80,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+=cut
+
+1;
