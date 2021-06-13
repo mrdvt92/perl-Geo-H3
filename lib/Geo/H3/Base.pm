@@ -39,7 +39,7 @@ sub new {
 
 =head2 ffi
 
-Returns Geo::H3::FFI object
+Returns a L<Geo::H3::FFI> object
 
 =cut
 
