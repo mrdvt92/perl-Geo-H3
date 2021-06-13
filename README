@@ -1,40 +1,64 @@
-Geo-H3 version 0.01
-===================
+NAME
+    Geo::H3 - H3 Geospatial Hexagon Indexing System
 
-The README is used to introduce the module and provide instructions on
-how to install the module, any machine dependencies it may have (for
-example C compilers and installed libraries) and any other information
-that should be provided before the module is installed.
+SYNOPSIS
+      use Geo::H3;
+      my $gh3      = Geo::H3->new;
+  
+      my $h3       = $gh3->h3(index  => $int);        #isa Geo::H3::Index
+      my $h3       = $gh3->h3(string => $string);     #isa Geo::H3::Index
 
-A README file is required for CPAN modules since CPAN extracts the
-README file from a module distribution so that people browsing the
-archive can use it get an idea of the modules uses. It is usually a
-good idea to provide version information here so that people can
-decide whether fixes for the module are worth downloading.
+      my $geo      = $gh3->geo(lat=>$lat, lon=>$lon); #isa Geo::H3::Geo
+      my $h3       = $geo->h3($resolution);           #isa Geo::H3::Index
 
-INSTALLATION
+      my $center   = $h3->center;                     #isa Geo::H3::GeoCoord
+      my $lat      = $center->lat;                    #isa Double WGS-84 Decimal Degrees
+      my $lon      = $center->lon;                    #isa Double WGS-84 Decimal Degrees
+      my $distance = $center->pointDistM($geo);       #isa Double meters
 
-To install this module type the following:
+DESCRIPTION
+    Perl API to the H3 Geospatial Hexagon Indexing System C library using
+    libffi and FFI::Platypus.
 
-   perl Makefile.PL
-   make
-   make test
-   make install
+CONSTRUCTORS
+  h3
+    Returns a Geo::H3::Index object
 
-DEPENDENCIES
+      my $h3 = $gh3->h3(index  => $int);    #isa Geo::H3::Index
+      my $h3 = $gh3->h3(string => $string); #isa Geo::H3::Index
 
-This module requires these other modules and libraries:
+  geo
+    Returns a Geo::H3::Geo object
 
-  blah blah blah
+      my $geo = $gh3->geo(lat=>$lat_deg, lon=>$lon_deg); #isa Geo::H3::Geo
 
-COPYRIGHT AND LICENCE
+SEE ALSO
+    <https://h3geo.org/>, <https://github.com/uber/h3/>, Geo::H3::FFI
 
-Put the correct copyright and licence information here.
+AUTHOR
+    Michael R. Davis
 
-Copyright (C) 2020 by Michael R. Davis
+COPYRIGHT AND LICENSE
+    MIT License
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.16.3 or,
-at your option, any later version of Perl 5 you may have available.
+    Copyright (c) 2020 Michael R. Davis
 
+    Permission is hereby granted, free of charge, to any person obtaining a
+    copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
