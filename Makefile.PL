@@ -22,4 +22,9 @@ WriteMakefile(
                           },
                         },
                       },
+    EXE_FILES    => [
+                    qw{
+                       scripts/perl-Geo-H3-geo-to-googleearth.pl
+                      }
+                    ],
 );

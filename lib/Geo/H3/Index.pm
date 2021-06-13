@@ -5,7 +5,7 @@ use base qw{Geo::H3::Base}; #provides new and ffi
 require Geo::H3::Geo;
 require Geo::H3::GeoBoundary;
 
-our $VERSION = '0.01';
+our $VERSION = '0.03';
 our $PACKAGE = __PACKAGE__;
 
 =head1 NAME

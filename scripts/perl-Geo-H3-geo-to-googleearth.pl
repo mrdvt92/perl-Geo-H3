@@ -3,22 +3,26 @@ use v5.10;
 use strict;
 use warnings;
 use Geo::H3;
-use Geo::GoogleEarth::Pluggable;
-use Geo::GoogleEarth::Pluggable::Plugin::Styles;
-use Path::Class qw{file};
+require #hide from rpmbuild
+  Geo::GoogleEarth::Pluggable;
+require #hide from rpmbuild
+  Geo::GoogleEarth::Pluggable::Plugin::Styles;
+require #hide from rpmbuild
+ Path::Class;
+use Getopt::Long qw{GetOptions};
 
-=head1 NAME
-
-perl-Geo-H3-geo-to-googleearth.pl - Creates an Google Earth document from Coordinates, H3, Parent, Children and Hex Ring.
-
-=cut
-
-my $lat            = shift //  38.889480654699476;
-my $lon            = shift // -77.03523875953579;
+my $lat            =  38.889480654699476;
+my $lon            = -77.03523875953579;
+my $resoultion     = 8;
+GetOptions(
+           'lat=s'              => \$lat,
+           'lon=s'              => \$lon,
+           'resolution|res|r=s' => \$resoultion,
+           );
 
 my $gh3            = Geo::H3->new;
 my $geo            = $gh3->geo(lat=>$lat, lon=>$lon);
-my $h3             = $geo->h3(8);
+my $h3             = $geo->h3($resoultion);
 my $center         = $h3->geo;
 
 my $document       = Geo::GoogleEarth::Pluggable->new(name=>"Geo::H3");
@@ -29,7 +33,7 @@ my $style_hex_ring = $document->Style(PolyStyle=>$document->AreaStyleGreen(alpha
 $document->Point(name=>"Input" , lat=>$lat,         lon=>$lon);
 $document->Point(name=>"Center", lat=>$center->lat, lon=>$center->lon);
 
-{
+if ($h3->resolution > 0) {
   my $folder = $document->Folder(name=>"Parent");
   my $parent = $h3->parent;
   $folder->LinearRing(name=>$parent->string, coordinates=>$parent->geo_boundary->coordinates, style=>$style_parent);
@@ -51,5 +55,13 @@ $document->Point(name=>"Center", lat=>$center->lat, lon=>$center->lon);
 
 $document->LinearRing(name=>$h3->string, coordinates=>$h3->geo_boundary->coordinates, style=>$style_index);
 
-my $outfile = file("output.kmz");
+my $outfile = Path::Class::file("output.kmz");
 $outfile->spew($document->archive);
+
+__END__
+
+=head1 NAME
+
+perl-Geo-H3-geo-to-googleearth.pl - Creates an Google Earth document from Coordinates, H3, Parent, Children and Hex Ring.
+
+=cut
