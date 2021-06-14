@@ -27,9 +27,9 @@ my $center         = $h3->geo;
 
 my $document       = Geo::GoogleEarth::Pluggable->new(name=>"Geo::H3");
 my $style_index    = $document->Style(PolyStyle=>$document->AreaStyleBlue(alpha=>"20%") , LineStyle=>$document->LineStyleBlue(width=>4));
-my $style_child    = $document->Style(PolyStyle=>$document->AreaStyleBlack(alpha=>"20%"), LineStyle=>$document->LineStyleBlack(width=>2, alpha=>"50%"));
-my $style_parent   = $document->Style(PolyStyle=>$document->AreaStyleWhite(alpha=>"20%"), LineStyle=>$document->LineStyleWhite(width=>2, alpha=>"50%"));
-my $style_hex_ring = $document->Style(PolyStyle=>$document->AreaStyleGreen(alpha=>"20%"), LineStyle=>$document->LineStyleGreen(width=>2, alpha=>"50%"));
+my $style_child    = $document->Style(PolyStyle=>$document->AreaStyleBlack(alpha=>"20%"), LineStyle=>$document->LineStyleBlack(width=>2));
+my $style_parent   = $document->Style(PolyStyle=>$document->AreaStyleWhite(alpha=>"20%"), LineStyle=>$document->LineStyleWhite(width=>2));
+my $style_hex_ring = $document->Style(PolyStyle=>$document->AreaStyleGreen(alpha=>"20%"), LineStyle=>$document->LineStyleGreen(width=>2));
 $document->Point(name=>"Input" , lat=>$lat,         lon=>$lon);
 $document->Point(name=>"Center", lat=>$center->lat, lon=>$center->lon);
 
@@ -62,6 +62,6 @@ __END__
 
 =head1 NAME
 
-perl-Geo-H3-geo-to-googleearth.pl - Creates an Google Earth document from Coordinates, H3, Parent, Children and Hex Ring.
+perl-Geo-H3-geo-to-googleearth.pl - Creates a Google Earth document from Coordinates, H3, Parent, Children and Hex Ring.
 
 =cut
