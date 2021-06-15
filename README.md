@@ -33,28 +33,28 @@ The H3 Core Library can be installed from Uber's H3 respository on GitHub [https
 
 ### CONVENTIONS
 
-The Geo::H3 lib is an Object Oriented wrapper on top of the [Geo::H3::FFI](https://metacpan.org/pod/Geo::H3::FFI) library.  Geo::H3 was written as a wrapper so that in the future we are able to re-write the back against different backends such as the yet to be developed Geo::H3::XS backend.
+The Geo::H3 lib is an Object Oriented wrapper on top of the [Geo::H3::FFI](https://metacpan.org/pod/Geo::H3::FFI) library.  Geo::H3 was written as a wrapper so that in the future we are able to re-write against different backends such as the yet to be developed Geo::H3::XS backend.
 
 #### libh3
 
-    - Latitude and longitue cordinates are in I<radians> WGS-84
+    - Latitude and longitue cordinates are in radians WGS-84
     - H3 Index values are handled as uint64 integers
     - GeoCoord values are handled as C structures with lat and lon
     - GeoBoundary values are handled as C structures with num_verts and verts
 
 #### Geo::H3::FFI
 
-    - Latitude and Longitue cordinates are in I<radians> WGS-84
+    - Latitude and Longitue cordinates are in radians WGS-84
     - H3 Index values are handled as uint64 integers
-    - GeoCoord values are handled as L<Geo::H3::FFI::Struct::GeoCoord> objects
-    - GeoBoundary values are handled as L<Geo::H3::FFI::Struct::GeoBoundary> objects
+    - GeoCoord values are handled as Geo::H3::FFI::Struct::GeoCoord objects
+    - GeoBoundary values are handled as Geo::H3::FFI::Struct::GeoBoundary objects
 
 #### Geo::H3
 
-    - Latitude and longitue cordinates are in I<decimal degrees> WGS-84
-    - H3 Index values are handled as L<Geo::H3::Index> objects
-    - GeoCoord values are handled as L<Geo::H3::GeoCoord> objects
-    - GeoBoundary values are handled as L<Geo::H3::GeoBoundary> objects
+    - Latitude and longitue cordinates are in decimal degrees WGS-84
+    - H3 Index values are handled as Geo::H3::Index objects
+    - GeoCoord values are handled as Geo::H3::GeoCoord objects
+    - GeoBoundary values are handled as Geo::H3::GeoBoundary objects
 
 ## CONSTRUCTORS
 
