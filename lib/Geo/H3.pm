@@ -30,7 +30,38 @@ Geo::H3 - H3 Geospatial Hexagon Indexing System
   
 =head1 DESCRIPTION
 
-Perl API to the H3 Geospatial Hexagon Indexing System C library using libffi and FFI::Platypus.
+This Perl distribution provides a Perl Object Oriented interface to the H3 Core Library.  It accesses the H3 C library using L<libffi|https://github.com/libffi/libffi> and L<FFI::Platypus>.
+
+H3 is a geospatial indexing system that partitions the world into hexagonal cells.
+
+The H3 Core Library implements the H3 grid system. It includes functions for converting from latitude and longitude coordinates to the containing H3 cell, finding the center of H3 cells, finding the boundary geometry of H3 cells, finding neighbors of H3 cells, and more.
+
+The H3 Core Library can be installed from Uber's H3 respository on GitHub L<https://github.com/uber/h3> which is well documented at L<https://h3geo.org/docs/>.  
+
+=head2 CONVENTIONS
+
+The Geo::H3 lib is an Object Oriented wrapper on top of the L<Geo::H3::FFI> library.  Geo::H3 was written as a wrapper so that in the future we are able to re-write the back against different backends such as the yet to be developed Geo::H3::XS backend.
+
+=head3 libh3
+
+  - Latitude and longitue cordinates are in I<radians> WGS-84
+  - H3 Index values are handled as uint64 integers
+  - GeoCoord values are handled as C structures with lat and lon
+  - GeoBoundary values are handled as C structures with num_verts and verts
+
+=head3 Geo::H3::FFI
+
+  - Latitude and Longitue cordinates are in I<radians> WGS-84
+  - H3 Index values are handled as uint64 integers
+  - GeoCoord values are handled as L<Geo::H3::FFI::Struct::GeoCoord> objects
+  - GeoBoundary values are handled as L<Geo::H3::FFI::Struct::GeoBoundary> objects
+
+=head3 Geo::H3
+
+  - Latitude and longitue cordinates are in I<decimal degrees> WGS-84
+  - H3 Index values are handled as L<Geo::H3::Index> objects
+  - GeoCoord values are handled as L<Geo::H3::GeoCoord> objects
+  - GeoBoundary values are handled as L<Geo::H3::GeoBoundary> objects
 
 =head1 CONSTRUCTORS
 
@@ -38,8 +69,9 @@ Perl API to the H3 Geospatial Hexagon Indexing System C library using libffi and
 
 Returns a L<Geo::H3::Index> object
 
-  my $h3 = $gh3->h3(index  => $int);    #isa Geo::H3::Index
-  my $h3 = $gh3->h3(string => $string); #isa Geo::H3::Index
+  my $h3 = $gh3->h3(index  => $int);             #isa Geo::H3::Index
+  my $h3 = $gh3->h3(string => $string);          #isa Geo::H3::Index
+  my $h3 = Geo::H3::Index->new(index => $index); #isa Geo::H3::Index
 
 =cut
 
@@ -62,7 +94,8 @@ sub h3 {
 
 Returns a L<Geo::H3::Geo> object
 
-  my $geo = $gh3->geo(lat=>$lat_deg, lon=>$lon_deg); #isa Geo::H3::Geo
+  my $geo = $gh3->geo(lat=>$lat_deg, lon=>$lon_deg);         #isa Geo::H3::Geo
+  my $geo = Geo::H3::Geo->new(lat=>$lat_deg, lon=>$lon_deg); #isa Geo::H3::Geo
 
 =cut
 
@@ -77,6 +110,19 @@ sub geo {
 
 L<https://h3geo.org/>, L<https://github.com/uber/h3/>, L<Geo::H3::FFI>
 
+=head1 INSTALLATION
+
+L<Geo::H3> has some pretty deep requirements that are not available in many OS repositories.  For RedHat and CentOS 7 users, I have have built RPMs and placed them on my L<Linux Yum Repository|http://linux.davisnetworks.com/el7/>
+
+To install the distribution with all dependancies - CentOS 7
+
+  $ sudo yum install http://linux.davisnetworks.com/el7/updates/mrdvt92-release-8-2.el7.mrdvt92.noarch.rpm # DavisNetworks.com Yum Repository
+  $ sudo yum install 'perl(Geo::H3)'
+
+To install the additional dependancies for the example script perl-Geo-H3-geo-to-googleearth.pl
+
+  $ sudo yum install 'perl(Geo::GoogleEarth::Pluggable)' 'perl(Geo::GoogleEarth::Pluggable::Plugin::Styles)' 'perl(Path::Class)'
+
 =head1 AUTHOR
 
 Michael R. Davis
@@ -85,7 +131,7 @@ Michael R. Davis
 
 MIT License
 
-Copyright (c) 2020 Michael R. Davis
+Copyright (c) 2021 Michael R. Davis
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
