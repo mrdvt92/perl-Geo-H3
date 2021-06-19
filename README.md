@@ -29,7 +29,7 @@ H3 is a geospatial indexing system that partitions the world into hexagonal cell
 
 The H3 Core Library implements the H3 grid system. It includes functions for converting from latitude and longitude coordinates to the containing H3 cell, finding the center of H3 cells, finding the boundary geometry of H3 cells, finding neighbors of H3 cells, and more.
 
-The H3 Core Library can be installed from Uber's H3 respository on GitHub [https://github.com/uber/h3](https://github.com/uber/h3) which is well documented at [https://h3geo.org/docs/](https://h3geo.org/docs/).  
+The H3 Core Library can be installed from Uber's H3 repository on GitHub [https://github.com/uber/h3](https://github.com/uber/h3) which is well documented at [https://h3geo.org/docs/](https://h3geo.org/docs/).  
 
 ### CONVENTIONS
 
@@ -81,12 +81,12 @@ Returns a [Geo::H3::Geo](https://metacpan.org/pod/Geo::H3::Geo) object
 
 [Geo::H3](https://metacpan.org/pod/Geo::H3) has some pretty deep requirements that are not available in many OS repositories.  For RedHat and CentOS 7 users, I have have built RPMs and placed them on my [Linux Yum Repository](http://linux.davisnetworks.com/el7/)
 
-To install the distribution with all dependancies - CentOS 7
+To install the distribution with all dependencies - CentOS 7
 
-    $ sudo yum install http://linux.davisnetworks.com/el7/updates/mrdvt92-release-8-2.el7.mrdvt92.noarch.rpm # DavisNetworks.com Yum Repository
+    $ sudo yum install http://linux.davisnetworks.com/el7/updates/mrdvt92-release-8-2.el7.mrdvt92.noarch.rpm
     $ sudo yum install 'perl(Geo::H3)'
 
-To install the additional dependancies for the example script perl-Geo-H3-geo-to-googleearth.pl
+To install the additional dependencies for the example script perl-Geo-H3-geo-to-googleearth.pl
 
     $ sudo yum install 'perl(Geo::GoogleEarth::Pluggable)' 'perl(Geo::GoogleEarth::Pluggable::Plugin::Styles)' 'perl(Path::Class)'
 
@@ -149,8 +149,6 @@ Perl API to the H3 Geospatial Hexagon Indexing System.
 
 Returns the H3 index uint64 representation
 
-## METHODS
-
 ### string
 
 Returns the H3 string representation.
@@ -159,32 +157,9 @@ Returns the H3 string representation.
 
 Returns the resolution of the index.
 
-### geo
+### baseCell
 
-Returns the centroid of the index as a [Geo::H3::Geo](https://metacpan.org/pod/Geo::H3::Geo) object.
-
-### geo\_boundary
-
-### children
-
-Returns an array reference of [Geo::H3::Index](https://metacpan.org/pod/Geo::H3::Index) objects
-
-    my $children = $h3->children; #next higer resolution
-    my $children = $h3->children(12); #isa ARRAY
-
-### parent
-
-Returns a [Geo::H3::Index](https://metacpan.org/pod/Geo::H3::Index) object parent of the H3 index.
-
-    my $parent = $h3->parent;    #next lower resolution
-    my $parent = $h3->parent(1); #isa Geo::H3::Index
-
-### hex\_ring
-
-Returns an array reference of [Geo::H3::Index](https://metacpan.org/pod/Geo::H3::Index) objects
-
-    my $hexes = $h3->children; #default k = 1
-    my $hexes = $h3->children(5); #isa ARRAY
+Returns the base cell number of the index.
 
 ### isValid
 
@@ -201,6 +176,100 @@ Returns non-zero if this index represents a pentagonal cell.
 ### maxFaceCount
 
 Returns the maximum number of icosahedron faces the given H3 index may intersect.
+
+### area
+
+Returns the area in square meters of this index.
+
+### areaApprox
+
+Returns the average area in square meters of indexes at this resolution.
+
+### edgeLength
+
+Returns the exact edge length in meters of this index.
+
+### edgeLengthApprox
+
+Returns the average edge length in meters of indexes at this resolution.
+
+## METHODS
+
+### geo
+
+Returns the centroid of the index as a [Geo::H3::Geo](https://metacpan.org/pod/Geo::H3::Geo) object.
+
+### geoBoundary
+
+Returns the boundary of the index as a [Geo::H3::GeoBoundary](https://metacpan.org/pod/Geo::H3::GeoBoundary) object
+
+### parent
+
+Returns a parent index of this index as a [Geo::H3::Index](https://metacpan.org/pod/Geo::H3::Index) object.
+
+    my $parent = $h3->parent;    #next larger resolution
+    my $parent = $h3->parent(1); #isa Geo::H3::Index
+
+### children
+
+Returns the children of the index as an array reference of [Geo::H3::Index](https://metacpan.org/pod/Geo::H3::Index) objects.
+
+    my $children = $h3->children(12); #isa ARRAY
+    my $children = $h3->children;     #next smaller resolution
+
+### centerChild
+
+Returns the center child (finer) index contained by this index at given resolution.
+
+    my $centerChild = $index->centerChild;      #isa Geo::H3::Index
+    my $centerChild = $index->centerChild(12);  #isa Geo::H3::Index
+
+### kRing
+
+Returns k-rings indexes within k distance of the origin index.
+
+    my $list $index->kRing($k); #isa ARRAY of L<Geo::H3::Index> objects
+
+### kRingDistances
+
+Returns a hash reference where the keys are the H3 index and values are the k distance for the given index and k value.
+
+    my $hash = $index->kRingDistances($k);
+
+### hexRange
+
+    my $indexes = $index->hexRange($k);
+
+### hexRangeDistances
+
+Returns a hash reference where the keys are the H3 index and values are the k distance for the given index and k value.
+
+    my $hash = $index->hexRangeDistances($k);
+
+### hexRing
+
+Returns the hex ring of this index as an array reference of [Geo::H3::Index](https://metacpan.org/pod/Geo::H3::Index) objects
+
+    my $hexes = $h3->hexRing; #default k = 1
+    my $hexes = $h3->hexRing(5); #isa ARRAY
+
+### areNeighbors
+
+Returns whether or not the provided H3Indexes are neighbors.
+
+    my $areNeighbors = $start_index->areNeighbors($end_index);
+
+### line
+
+Returns the indexes starting at this index to the given end index as array reference of [Geo::H3::Index](https://metacpan.org/pod/Geo::H3::Index) objects.
+
+    my $list_aref = $start_index->line($end_index);
+
+### distance
+
+Returns the distance in grid cells between this index to the given end index.
+
+    my $distance = $start_index->distance($end_index);
 
 ### struct
 
@@ -287,23 +356,11 @@ Indexes the location at the specified resolution, returning the index object [Ge
 
 Returns undef on error.
 
-### pointDistKm
+### distance
 
-Gives the "great circle" or "haversine" distance between pairs of points (lat/lon pairs) in kilometers.
+Returns in meters the "great circle" or "haversine" distance between pairs of points (lat/lon pairs).
 
-    my $distance = $geoA->pointDistKm($geoB); #isa Double
-
-### pointDistM
-
-Gives the "great circle" or "haversine" distance between pairs of points (lat/lon pairs) in meters.
-
-    my $distance = $geoA->pointDistM($geoB); #isa Double
-
-### pointDistRads
-
-Gives the "great circle" or "haversine" distance between pairs of points (lat/lon pairs) in radians.
-
-    my $distance = $geoA->pointDistRads($geoB); #isa Double
+    my $distance = $geoA->distance($geoB); #isa Double
 
 ## SEE ALSO
 
@@ -370,7 +427,7 @@ Returns the H3 GeoBoundray Object as returned from the API
 
 ### coordinates
 
-Returns an array reference of hashes i.e. \[{lat=>$lat, lon=>$lon}, ...\]
+Returns an OGC compatible closed polygon as an array reference of hashes i.e. \[{lat=>$lat, lon=>$lon}, ...\].
 
 ## SEE ALSO
 
