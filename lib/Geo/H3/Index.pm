@@ -5,7 +5,7 @@ use base qw{Geo::H3::Base}; #provides new and ffi
 require Geo::H3::Geo;
 require Geo::H3::GeoBoundary;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 our $PACKAGE = __PACKAGE__;
 
 =head1 NAME
@@ -30,6 +30,14 @@ Perl API to the H3 Geospatial Hexagon Indexing System.
 
   my $geo = Geo::H3::Index->new(index=>$index);
 
+=cut
+
+sub _bless_aref {
+  my $self = shift;
+  my $aref = shift;
+  return [map {Geo::H3::Index->new(index=>$_)} @$aref];
+}
+
 =head1 PROPERTIES
 
 =head2 index
@@ -42,8 +50,6 @@ sub index {
   my $self = shift;
   return $self->{'index'};
 }
-
-=head1 METHODS
 
 =head2 string
 
@@ -67,95 +73,15 @@ sub resolution {
   return $self->ffi->h3GetResolution($self->index);
 }
 
-=head2 geo
+=head2 baseCell
 
-Returns the centroid of the index as a L<Geo::H3::Geo> object.
+Returns the base cell number of the index.
 
 =cut
 
-sub geo {
+sub baseCell {
   my $self = shift;
-  unless ($self->{'geo'}) {
-    my $geo        = $self->ffi->h3ToGeoWrapper($self->index);
-    my $lat        = $self->ffi->radsToDegs($geo->lat);
-    my $lon        = $self->ffi->radsToDegs($geo->lon);
-    $self->{'geo'} = Geo::H3::Geo->new(lat=>$lat, lon=>$lon, ffi=>$self->ffi);
-  }
-  return $self->{'geo'};
-}
-
-=head2 geo_boundary
-
-=cut
-
-sub geo_boundary {
-  my $self = shift;
-  unless ($self->{'geo_boundary'}) {
-    my $ffigb               = $self->ffi->h3ToGeoBoundaryWrapper($self->index);
-    my $gb                  = Geo::H3::GeoBoundary->new(gb=>$ffigb, ffi=>$self->ffi);
-    $self->{'geo_boundary'} = $gb;
-  }
-  return $self->{'geo_boundary'};
-}
-
-=head2 children
-
-Returns an array reference of L<Geo::H3::Index> objects
-
-  my $children = $h3->children; #next higer resolution
-  my $children = $h3->children(12); #isa ARRAY
-
-=cut
-
-sub children {
-  my $self       = shift;
-  my $resolution = shift || $self->resolution + 1;
-  unless ($self->{'children'}) {
-    my $indexes         = $self->ffi->h3ToChildrenWrapper($self->index, $resolution);
-    $self->{'children'} = [map {Geo::H3::Index->new(index=>$_)} @{$indexes}]; 
-  }
-  return $self->{'children'};
-}
-
-=head2 parent
-
-Returns a L<Geo::H3::Index> object parent of the H3 index.
-
-  my $parent = $h3->parent;    #next lower resolution
-  my $parent = $h3->parent(1); #isa Geo::H3::Index
-
-=cut
-
-sub parent {
-  my $self       = shift;
-  my $resolution = shift || $self->resolution - 1;
-  unless ($self->{'parent'}) {
-    my $index         = $self->ffi->h3ToParent($self->index, $resolution);
-    $self->{'parent'} = Geo::H3::Index->new(index=>$index);
-  }
-  return $self->{'parent'};
-}
-
-=head2 hex_ring
-
-Returns an array reference of L<Geo::H3::Index> objects
-
-  my $hexes = $h3->children; #default k = 1
-  my $hexes = $h3->children(5); #isa ARRAY
-
-=cut
-
-sub hex_ring {
-  my $self = shift;
-  my $k    = shift || 1;
-  unless ($self->{'hex_ring'}) {
-    my $indexes         = $self->ffi->hexRingWrapper($self->index, $k);
-    $self->{'hex_ring'} = [map {Geo::H3::Index->new(index=>$_)} @{$indexes}]; 
-  }
-  unless ($self->{'hex_ring'}) {
-    
-  }
-  return $self->{'hex_ring'};
+  return $self->ffi->h3GetBaseCell($self->index);
 }
 
 =head2 isValid
@@ -202,6 +128,233 @@ sub maxFaceCount {
   return $self->ffi->maxFaceCount($self->index);
 }
 
+=head2 area
+
+Returns the area in square meters of this index.
+
+=cut
+
+sub area {
+  my $self = shift;
+  return $self->ffi->cellAreaM2($self->index);
+}
+
+=head2 areaApprox
+
+Returns the average area in square meters of indexes at this resolution.
+
+=cut
+
+sub areaApprox {
+  my $self = shift;
+  return $self->ffi->hexAreaM2($self->resolution);
+}
+
+=head2 edgeLength
+
+Returns the exact edge length in meters of this index.
+
+=cut
+
+sub edgeLength {
+  my $self = shift;
+  return $self->ffi->exactEdgeLengthM($self->index);
+}
+
+=head2 edgeLengthApprox
+
+Returns the average edge length in meters of indexes at this resolution.
+
+=cut
+
+sub edgeLengthApprox {
+  my $self = shift;
+  return $self->ffi->edgeLengthM($self->resolution);
+}
+
+=head1 METHODS
+
+=head2 geo
+
+Returns the centroid of the index as a L<Geo::H3::Geo> object.
+
+=cut
+
+sub geo {
+  my $self = shift;
+  my $geo  = $self->ffi->h3ToGeoWrapper($self->index);
+  my $lat  = $self->ffi->radsToDegs($geo->lat);
+  my $lon  = $self->ffi->radsToDegs($geo->lon);
+  return Geo::H3::Geo->new(lat=>$lat, lon=>$lon, ffi=>$self->ffi);
+}
+
+=head2 geoBoundary
+
+Returns the boundary of the index as a L<Geo::H3::GeoBoundary> object
+
+=cut
+
+sub geoBoundary {
+  my $self = shift;
+  return Geo::H3::GeoBoundary->new(gb=>$self->ffi->h3ToGeoBoundaryWrapper($self->index), ffi=>$self->ffi);
+}
+
+=head2 parent
+
+Returns a parent index of this index as a L<Geo::H3::Index> object.
+
+  my $parent = $h3->parent;    #next larger resolution
+  my $parent = $h3->parent(1); #isa Geo::H3::Index
+
+=cut
+
+sub parent {
+  my $self       = shift;
+  my $resolution = shift || $self->resolution - 1;
+  return Geo::H3::Index->new(index=>$self->ffi->h3ToParent($self->index, $resolution));
+}
+
+=head2 children
+
+Returns the children of the index as an array reference of L<Geo::H3::Index> objects.
+
+  my $children = $h3->children(12); #isa ARRAY
+  my $children = $h3->children;     #next smaller resolution
+
+=cut
+
+sub children {
+  my $self       = shift;
+  my $resolution = shift || $self->resolution + 1;
+  return $self->_bless_aref($self->ffi->h3ToChildrenWrapper($self->index, $resolution));
+}
+
+=head2 centerChild
+
+Returns the center child (finer) index contained by this index at given resolution.
+
+  my $centerChild = $index->centerChild;      #isa Geo::H3::Index
+  my $centerChild = $index->centerChild(12);  #isa Geo::H3::Index
+
+=cut
+
+sub centerChild {
+  my $self       = shift;
+  my $resolution = shift || $self->resolution + 1;
+  return Geo::H3::Index->new(index=>$self->ffi->h3ToCenterChild($self->index, $resolution));
+}
+
+=head2 kRing
+
+Returns k-rings indexes within k distance of the origin index.
+
+  my $list $index->kRing($k); #isa ARRAY of L<Geo::H3::Index> objects
+
+=cut
+
+sub kRing {
+  my $self = shift;
+  my $k    = shift || 1;
+  return $self->_bless_aref($self->ffi->kRingWrapper($self->index, $k));
+}
+
+=head2 kRingDistances
+
+Returns a hash reference where the keys are the H3 index and values are the k distance for the given index and k value.
+
+  my $hash = $index->kRingDistances($k);
+
+=cut
+
+sub kRingDistances {
+  my $self = shift;
+  my $k    = shift || 1;
+  return $self->ffi->kRingDistancesWrapper($self->index, $k);
+}
+
+=head2 hexRange
+
+  my $indexes = $index->hexRange($k);
+
+=cut
+
+sub hexRange {
+  my $self = shift;
+  my $k    = shift || 1;
+  return $self->_bless_aref($self->ffi->hexRangeWrapper($self->index, $k));
+}
+
+=head2 hexRangeDistances
+
+Returns a hash reference where the keys are the H3 index and values are the k distance for the given index and k value.
+
+  my $hash = $index->hexRangeDistances($k);
+
+=cut
+
+sub hexRangeDistances {
+  my $self = shift;
+  my $k    = shift || 1;
+  return $self->ffi->hexRangeDistancesWrapper($self->index, $k);
+}
+
+=head2 hexRing
+
+Returns the hex ring of this index as an array reference of L<Geo::H3::Index> objects
+
+  my $hexes = $h3->hexRing; #default k = 1
+  my $hexes = $h3->hexRing(5); #isa ARRAY
+
+=cut
+
+sub hexRing {
+  my $self = shift;
+  my $k    = shift || 1;
+  return $self->_bless_aref($self->ffi->hexRingWrapper($self->index, $k));
+}
+
+=head2 areNeighbors
+
+Returns whether or not the provided H3Indexes are neighbors.
+
+  my $areNeighbors = $start_index->areNeighbors($end_index);
+
+=cut
+
+sub areNeighbors {
+  my $self = shift;
+  my $end  = shift;
+  return $self->_bless_aref($self->ffi->h3IndexesAreNeighbors($self->index, $end->index));
+}
+
+=head2 line
+
+Returns the indexes starting at this index to the given end index as array reference of L<Geo::H3::Index> objects.
+
+  my $list_aref = $start_index->line($end_index);
+
+=cut
+
+sub line {
+  my $self = shift;
+  my $end  = shift;
+  return $self->_bless_aref($self->ffi->h3LineWrapper($self->index, $end->index));
+} 
+
+=head2 distance
+
+Returns the distance in grid cells between this index to the given end index.
+
+  my $distance = $start_index->distance($end_index);
+
+=cut
+
+sub distance {
+  my $self = shift;
+  my $end   = shift;
+  return $self->h3Distance($self->index, $end->index);
+}
+
 =head2 struct
 
 Returns the H3 index as an L<FFI::C> struct in the  L<Geo::H3::FFI::Struct::Index> namespace
@@ -209,9 +362,8 @@ Returns the H3 index as an L<FFI::C> struct in the  L<Geo::H3::FFI::Struct::Inde
 =cut
 
 sub struct {
-  my $self          = shift;
-  $self->{'struct'} = Geo::H3::FFI::Struct::Index->new({index=>$self->index}) unless $self->{'struct'};
-  return $self->{'struct'};
+  my $self = shift;
+  return Geo::H3::FFI::Struct::Index->new({index=>$self->index});
 }
 
 =head1 SEE ALSO

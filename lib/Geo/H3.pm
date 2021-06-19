@@ -5,7 +5,7 @@ use base qw{Geo::H3::Base}; #provides new and ffi
 use Geo::H3::Index;
 use Geo::H3::Geo;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 our $PACKAGE = __PACKAGE__;
 
 =head1 NAME
@@ -36,7 +36,7 @@ H3 is a geospatial indexing system that partitions the world into hexagonal cell
 
 The H3 Core Library implements the H3 grid system. It includes functions for converting from latitude and longitude coordinates to the containing H3 cell, finding the center of H3 cells, finding the boundary geometry of H3 cells, finding neighbors of H3 cells, and more.
 
-The H3 Core Library can be installed from Uber's H3 respository on GitHub L<https://github.com/uber/h3> which is well documented at L<https://h3geo.org/docs/>.  
+The H3 Core Library can be installed from Uber's H3 repository on GitHub L<https://github.com/uber/h3> which is well documented at L<https://h3geo.org/docs/>.  
 
 =head2 CONVENTIONS
 
@@ -114,12 +114,12 @@ L<https://h3geo.org/>, L<https://github.com/uber/h3/>, L<Geo::H3::FFI>
 
 L<Geo::H3> has some pretty deep requirements that are not available in many OS repositories.  For RedHat and CentOS 7 users, I have have built RPMs and placed them on my L<Linux Yum Repository|http://linux.davisnetworks.com/el7/>
 
-To install the distribution with all dependancies - CentOS 7
+To install the distribution with all dependencies - CentOS 7
 
-  $ sudo yum install http://linux.davisnetworks.com/el7/updates/mrdvt92-release-8-2.el7.mrdvt92.noarch.rpm # DavisNetworks.com Yum Repository
+  $ sudo yum install http://linux.davisnetworks.com/el7/updates/mrdvt92-release-8-2.el7.mrdvt92.noarch.rpm
   $ sudo yum install 'perl(Geo::H3)'
 
-To install the additional dependancies for the example script perl-Geo-H3-geo-to-googleearth.pl
+To install the additional dependencies for the example script perl-Geo-H3-geo-to-googleearth.pl
 
   $ sudo yum install 'perl(Geo::GoogleEarth::Pluggable)' 'perl(Geo::GoogleEarth::Pluggable::Plugin::Styles)' 'perl(Path::Class)'
 

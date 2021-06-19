@@ -1,5 +1,16 @@
 Revision history for Perl extension Geo::H3.
 
+0.04 2021-06-19
+  - Updated tests to require h3 lib to exists
+  - Updated Packages - Gave up on snake case morphing and moving to camel case to match the base API - NOT BACKWARDS COMPATABLE
+  - Updated lib/Geo/H3/Geo.pm
+    - Updated methods lat and lon to be read only after construction
+    - Dropped methods pointDistKm and pointDistRads
+    - Renamed method pointDistM to distance - NOT BACKWARDS COMPATABLE
+  - Updated lib/Geo/H3/Index.pm
+    - Added methods baseCell, centerChild, line, distance, etc...
+    - Renamed method geo_boundary to geoBoundary - NOT BACKWARDS COMPATABLE
+
 0.03 2021-06-13
   - Updated lib/Geo/H3/Index.pm
     - Added Methods: parent, children and hex_ring

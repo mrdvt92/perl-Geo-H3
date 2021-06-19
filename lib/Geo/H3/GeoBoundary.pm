@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use base qw{Geo::H3::Base}; #provides new and ffi
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 our $PACKAGE = __PACKAGE__;
 
 =head1 NAME
@@ -34,34 +34,28 @@ Returns the H3 GeoBoundray Object as returned from the API
 
 =cut
 
-sub gb {
-  my $self = shift;
-  return $self->{'gb'};
-}
+sub gb {shift->{'gb'}};
 
 =head1 METHODS
 
 =head2 coordinates
 
-Returns an array reference of hashes i.e. [{lat=>$lat, lon=>$lon}, ...]
+Returns an OGC compatible closed polygon as an array reference of hashes i.e. [{lat=>$lat, lon=>$lon}, ...].
 
 =cut
 
 sub coordinates {
-  my $self = shift;
-  unless ($self->{'coordinates'}) {
-    my @coordinates        = ();
-    my $gb                 = $self->gb or die;
-    my $max                = $gb->num_verts - 1;
-    foreach my $index (0 .. $max, 0) {
-      my $vert = $gb->verts->[$index];
-      my $lat  = $self->ffi->radsToDegs($vert->lat);
-      my $lon  = $self->ffi->radsToDegs($vert->lon);
-      push @coordinates, {lat=>$lat, lon=>$lon};
-    }
-    $self->{'coordinates'} = \@coordinates;
+  my $self        = shift;
+  my @coordinates = ();
+  my $gb          = $self->gb or die;
+  my $max         = $gb->num_verts - 1;
+  foreach my $index (0 .. $max, 0) {
+    my $vert = $gb->verts->[$index];
+    my $lat  = $self->ffi->radsToDegs($vert->lat);
+    my $lon  = $self->ffi->radsToDegs($vert->lon);
+    push @coordinates, {lat=>$lat, lon=>$lon};
   }
-  return $self->{'coordinates'};
+  return \@coordinates;
 }
 
 =head1 SEE ALSO

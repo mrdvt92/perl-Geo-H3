@@ -4,7 +4,7 @@ use warnings;
 use base qw{Geo::H3::Base}; #provides new, ffi, and Geo::H3::FFI::Struct::GeoCoord
 require Geo::H3::Index;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 our $PACKAGE = __PACKAGE__;
 
 =head1 NAME
@@ -38,11 +38,7 @@ Returns the latitude in degrees
 
 =cut
 
-sub lat {
-  my $self = shift;
-  $self->{'lat'} = shift if @_;
-  return $self->{'lat'};
-}
+sub lat {shift->{'lat'}};
 
 =head2 lon
 
@@ -50,11 +46,7 @@ Returns the longitude in degrees
 
 =cut
 
-sub lon {
-  my $self = shift;
-  $self->{'lon'} = shift if @_;
-  return $self->{'lon'};
-}
+sub lon {shift->{'lon'}};
 
 =head1 METHODS
 
@@ -88,48 +80,18 @@ sub h3 {
   return  Geo::H3::Index->new(index=>$index);
 }
 
-=head2 pointDistKm
+=head2 distance
 
-Gives the "great circle" or "haversine" distance between pairs of points (lat/lon pairs) in kilometers.
+Returns in meters the "great circle" or "haversine" distance between pairs of points (lat/lon pairs).
 
-  my $distance = $geoA->pointDistKm($geoB); #isa Double
-
-=cut
-
-sub pointDistKm {
-  my $a        = shift;
-  my $b        = shift or die("Error: package $PACKAGE method pointDistKm requires a distination point");
-  my $distance = $a->ffi->pointDistKm($a->struct, $b->struct);
-  return $distance;
-}
-
-=head2 pointDistM
-
-Gives the "great circle" or "haversine" distance between pairs of points (lat/lon pairs) in meters.
-
-  my $distance = $geoA->pointDistM($geoB); #isa Double
+  my $distance = $geoA->distance($geoB); #isa Double
 
 =cut 
 
-sub pointDistM {
+sub distance {
   my $a        = shift;
   my $b        = shift or die("Error: package $PACKAGE method pointDistM requires a distination point");
   my $distance = $a->ffi->pointDistM($a->struct, $b->struct);
-  return $distance;
-}
-
-=head2 pointDistRads
-
-Gives the "great circle" or "haversine" distance between pairs of points (lat/lon pairs) in radians.
-
-  my $distance = $geoA->pointDistRads($geoB); #isa Double
-
-=cut
-
-sub pointDistRads {
-  my $a        = shift;
-  my $b        = shift or die("Error: package $PACKAGE method pointDistRads requires a distination point");
-  my $distance = $a->ffi->pointDistRads($a->struct, $b->struct);
   return $distance;
 }
 

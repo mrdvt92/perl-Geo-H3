@@ -3,7 +3,8 @@ WriteMakefile(
     NAME           => 'Geo::H3',
     VERSION_FROM   => 'lib/Geo/H3.pm',
     PREREQ_PM      => {
-                       'Geo::H3::FFI' => 0,
+                       'Geo::H3::FFI'  => 0,
+                       'FFI::CheckLib' => 0,
                       },
     ABSTRACT_FROM  => 'lib/Geo/H3.pm',
     AUTHOR         => 'Michael R. Davis <mrdvt@cpan.org>',

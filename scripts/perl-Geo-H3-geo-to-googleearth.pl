@@ -2,7 +2,7 @@
 use v5.10;
 use strict;
 use warnings;
-use Geo::H3;
+use Geo::H3 0.04;
 require #hide from rpmbuild
   Geo::GoogleEarth::Pluggable;
 require #hide from rpmbuild
@@ -36,24 +36,24 @@ $document->Point(name=>"Center", lat=>$center->lat, lon=>$center->lon);
 if ($h3->resolution > 0) {
   my $folder = $document->Folder(name=>"Parent");
   my $parent = $h3->parent;
-  $folder->LinearRing(name=>$parent->string, coordinates=>$parent->geo_boundary->coordinates, style=>$style_parent);
+  $folder->LinearRing(name=>$parent->string, coordinates=>$parent->geoBoundary->coordinates, style=>$style_parent);
 }
 
 {
   my $folder = $document->Folder(name=>"Hex Ring");
-  foreach my $hex (@{$h3->hex_ring}) {
-    $folder->LinearRing(name=>$hex->string, coordinates=>$hex->geo_boundary->coordinates, style=>$style_hex_ring);
+  foreach my $hex (@{$h3->hexRing}) {
+    $folder->LinearRing(name=>$hex->string, coordinates=>$hex->geoBoundary->coordinates, style=>$style_hex_ring);
   }
 }
 
 {
   my $folder = $document->Folder(name=>"Children");
   foreach my $child (@{$h3->children}) {
-    $folder->LinearRing(name=>$child->string, coordinates=>$child->geo_boundary->coordinates, style=>$style_child);
+    $folder->LinearRing(name=>$child->string, coordinates=>$child->geoBoundary->coordinates, style=>$style_child);
   }
 }
 
-$document->LinearRing(name=>$h3->string, coordinates=>$h3->geo_boundary->coordinates, style=>$style_index);
+$document->LinearRing(name=>$h3->string, coordinates=>$h3->geoBoundary->coordinates, style=>$style_index);
 
 my $outfile = Path::Class::file("output.kmz");
 $outfile->spew($document->archive);
