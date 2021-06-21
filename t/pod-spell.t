@@ -29,7 +29,7 @@ isResClassIII
 isValid
 maxFaceCount
 namespace
-GeoBoundray
+GeoBoundary
 gb
 googleearth
 H3Indexes
@@ -54,3 +54,8 @@ libh3
 CentOS
 GitHub
 backend
+KML
+kml
+KMZ
+kmz
+WGS

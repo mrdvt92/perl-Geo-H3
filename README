@@ -122,7 +122,7 @@ SOFTWARE.
 
 ## NAME
 
-Geo::H3::Index - H3 Geospatial Hexagon Indexing System
+Geo::H3::Index - H3 Geospatial Hexagon Indexing System Index Object
 
 ## SYNOPSIS
 
@@ -131,11 +131,10 @@ Geo::H3::Index - H3 Geospatial Hexagon Indexing System
     my $centroid = $h3->geo;                          #isa Geo::H3::GeoCoord
     my $lat      = $center->lat;                      #isa double WGS-84 Decimal Degrees
     my $lon      = $center->lon;                      #isa double WGS-84 Decimal Degrees
-    
 
 ## DESCRIPTION
 
-Perl API to the H3 Geospatial Hexagon Indexing System.
+H3 Geospatial Hexagon Indexing System Index Object provides the primary interface for working with H3 Indexes.
 
 ## CONSTRUCTORS
 
@@ -271,10 +270,6 @@ Returns the distance in grid cells between this index to the given end index.
 
     my $distance = $start_index->distance($end_index);
 
-### struct
-
-Returns the H3 index as an [FFI::C](https://metacpan.org/pod/FFI::C) struct in the  [Geo::H3::FFI::Struct::Index](https://metacpan.org/pod/Geo::H3::FFI::Struct::Index) namespace
-
 ## SEE ALSO
 
 [Geo::H3](https://metacpan.org/pod/Geo::H3), [Geo::H3::FFI](https://metacpan.org/pod/Geo::H3::FFI)
@@ -311,7 +306,7 @@ SOFTWARE.
 
 ## NAME
 
-Geo::H3::Geo - H3 Geospatial Hexagon Indexing System
+Geo::H3::Geo - H3 Geospatial Hexagon Indexing System Geo Object
 
 ## SYNOPSIS
 
@@ -321,11 +316,12 @@ Geo::H3::Geo - H3 Geospatial Hexagon Indexing System
     my $center = $h3->center;                             #isa Geo::H3::Geo
     my $lat    = $center->lat;                            #isa double WGS-84 Decimal Degrees
     my $lon    = $center->lon;                            #isa double WGS-84 Decimal Degrees
-    
 
 ## DESCRIPTION
 
-Perl API to the H3 Geospatial Hexagon Indexing System.
+H3 Geospatial Hexagon Indexing System Geo Object exposes the lat and lon properties as WGS-84 Decimal Degrees and converts coordinates to radians in the struct method for passing into the[Geo::H3::FFI](https://metacpan.org/pod/Geo::H3::FFI) API as a [Geo::H3::FFI::Struct::GeoCoord](https://metacpan.org/pod/Geo::H3::FFI::Struct::GeoCoord) object.
+
+The methods h3 and distance are wrappers around select [Geo::H3::FFI](https://metacpan.org/pod/Geo::H3::FFI) methods.
 
 ## CONSTRUCTORS
 
@@ -337,17 +333,19 @@ Perl API to the H3 Geospatial Hexagon Indexing System.
 
 ### lat
 
-Returns the latitude in degrees
+Returns the latitude in decimal degrees WGS-84
 
 ### lon
 
-Returns the longitude in degrees
+Returns the longitude in decimal degrees WGS-84
 
 ## METHODS
 
 ### struct
 
-### h3 
+Returns a [Geo::H3::FFI::Struct::GeoCoord](https://metacpan.org/pod/Geo::H3::FFI::Struct::GeoCoord) for use in the [Geo::H3::FFI](https://metacpan.org/pod/Geo::H3::FFI) API.
+
+### h3
 
 Indexes the location at the specified resolution, returning the index object [Geo::H3::Index](https://metacpan.org/pod/Geo::H3::Index) of the cell containing the location.
 
@@ -364,7 +362,7 @@ Returns in meters the "great circle" or "haversine" distance between pairs of po
 
 ## SEE ALSO
 
-[Geo::H3](https://metacpan.org/pod/Geo::H3), [Geo::H3::FFI](https://metacpan.org/pod/Geo::H3::FFI)
+[Geo::H3](https://metacpan.org/pod/Geo::H3), [Geo::H3::FFI](https://metacpan.org/pod/Geo::H3::FFI), [Geo::H3::Index](https://metacpan.org/pod/Geo::H3::Index), [Geo::H3::FFI::Struct::GeoCoord](https://metacpan.org/pod/Geo::H3::FFI::Struct::GeoCoord)
 
 ## AUTHOR
 
@@ -398,18 +396,17 @@ SOFTWARE.
 
 ## NAME
 
-Geo::H3::GeoBoundary - H3 Geospatial Hexagon Indexing System
+Geo::H3::GeoBoundary - H3 Geospatial Hexagon Indexing System GeoBoundary Object
 
 ## SYNOPSIS
 
     use Geo::H3::GeoBoundary;
     my $gb = Geo::H3::GeoBoundary->new(gb=>$gb); #isa Geo::H3::GeoBoundary
     my $gb = Geo::H3::GeoBoundary->new(gb=>$gb, ffi=>$ffi); #isa Geo::H3::GeoBoundary
-    
 
 ## DESCRIPTION
 
-Perl API to the H3 Geospatial Hexagon Indexing System.
+H3 Geospatial Hexagon Indexing System GeoBoundary Object provides coordinates method to extract data from the FFI GeoBoundary object
 
 ## CONSTRUCTORS
 
@@ -421,7 +418,7 @@ Perl API to the H3 Geospatial Hexagon Indexing System.
 
 ### gb
 
-Returns the H3 GeoBoundray Object as returned from the API
+Returns the H3 GeoBoundary Object from the API as a [Geo::H3::FFI::Struct::GeoBoundary](https://metacpan.org/pod/Geo::H3::FFI::Struct::GeoBoundary) object
 
 ## METHODS
 
@@ -429,9 +426,11 @@ Returns the H3 GeoBoundray Object as returned from the API
 
 Returns an OGC compatible closed polygon as an array reference of hashes i.e. \[{lat=>$lat, lon=>$lon}, ...\].
 
+This coordinates format plugs directly into the format required for many [Geo::GoogleEarth::Pluggable](https://metacpan.org/pod/Geo::GoogleEarth::Pluggable) objects.
+
 ## SEE ALSO
 
-[Geo::H3](https://metacpan.org/pod/Geo::H3), [Geo::H3::FFI](https://metacpan.org/pod/Geo::H3::FFI)
+[Geo::H3](https://metacpan.org/pod/Geo::H3), [Geo::H3::FFI::Struct::GeoBoundary](https://metacpan.org/pod/Geo::H3::FFI::Struct::GeoBoundary), [Geo::GoogleEarth::Pluggable](https://metacpan.org/pod/Geo::GoogleEarth::Pluggable)
 
 ## AUTHOR
 
@@ -466,4 +465,65 @@ SOFTWARE.
 ## NAME
 
 perl-Geo-H3-geo-to-googleearth.pl - Creates a Google Earth document from Coordinates, H3, Parent, Children and Hex Ring.
+
+## EXAMPLES
+
+Default creates output.kmz
+
+    $ perl-Geo-H3-geo-to-googleearth.pl
+    Lat: 38.8894806546995
+    Lon: -77.0352387595358
+    Resolution: 8
+    Output: output.kmz
+    Format: kmz
+
+KMZ output with defaults specified
+
+    $ perl-Geo-H3-geo-to-googleearth.pl --lat=38.889480654699476 --lon=-77.03523875953579 --resolution=8 --output=output.kmz
+    Lat: 38.889480654699476
+    Lon: -77.03523875953579
+    Resolution: 8
+    Output: output.kmz
+    Format: kmz
+
+KML output pass a file name with "kml" extension.
+
+    $ perl-Geo-H3-geo-to-googleearth.pl --output=output.kml
+    Lat: 38.8894806546995
+    Lon: -77.0352387595358
+    Resolution: 8
+    Output: output.kml
+    Format: kml
+
+## SEE ALSO
+
+[Geo::GoogleEarth::Pluggable](https://metacpan.org/pod/Geo::GoogleEarth::Pluggable), [Geo::GoogleEarth::Pluggable::Plugin::Styles](https://metacpan.org/pod/Geo::GoogleEarth::Pluggable::Plugin::Styles), [Path::Class](https://metacpan.org/pod/Path::Class)
+
+## AUTHOR
+
+Michael R. Davis
+
+## COPYRIGHT AND LICENSE
+
+MIT License
+
+Copyright (c) 2021 Michael R. Davis
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 

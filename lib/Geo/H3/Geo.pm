@@ -4,12 +4,12 @@ use warnings;
 use base qw{Geo::H3::Base}; #provides new, ffi, and Geo::H3::FFI::Struct::GeoCoord
 require Geo::H3::Index;
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 our $PACKAGE = __PACKAGE__;
 
 =head1 NAME
 
-Geo::H3::Geo - H3 Geospatial Hexagon Indexing System
+Geo::H3::Geo - H3 Geospatial Hexagon Indexing System Geo Object
 
 =head1 SYNOPSIS
 
@@ -19,10 +19,12 @@ Geo::H3::Geo - H3 Geospatial Hexagon Indexing System
   my $center = $h3->center;                             #isa Geo::H3::Geo
   my $lat    = $center->lat;                            #isa double WGS-84 Decimal Degrees
   my $lon    = $center->lon;                            #isa double WGS-84 Decimal Degrees
-  
+
 =head1 DESCRIPTION
 
-Perl API to the H3 Geospatial Hexagon Indexing System.
+H3 Geospatial Hexagon Indexing System Geo Object exposes the lat and lon properties as WGS-84 Decimal Degrees and converts coordinates to radians in the struct method for passing into theL<Geo::H3::FFI> API as a L<Geo::H3::FFI::Struct::GeoCoord> object.
+
+The methods h3 and distance are wrappers around select L<Geo::H3::FFI> methods.
 
 =head1 CONSTRUCTORS
 
@@ -34,7 +36,7 @@ Perl API to the H3 Geospatial Hexagon Indexing System.
 
 =head2 lat
 
-Returns the latitude in degrees
+Returns the latitude in decimal degrees WGS-84
 
 =cut
 
@@ -42,7 +44,7 @@ sub lat {shift->{'lat'}};
 
 =head2 lon
 
-Returns the longitude in degrees
+Returns the longitude in decimal degrees WGS-84
 
 =cut
 
@@ -51,6 +53,8 @@ sub lon {shift->{'lon'}};
 =head1 METHODS
 
 =head2 struct
+
+Returns the Geo object as an L<FFI::C> struct in the L<Geo::H3::FFI::Struct::GeoCoord> namespace for use in the L<Geo::H3::FFI> API.
 
 =cut
 
@@ -61,7 +65,7 @@ sub struct {
   return Geo::H3::FFI::Struct::GeoCoord->new({lat=>$lat, lon=>$lon});
 }
 
-=head2 h3 
+=head2 h3
 
 Indexes the location at the specified resolution, returning the index object L<Geo::H3::Index> of the cell containing the location.
 
@@ -86,7 +90,7 @@ Returns in meters the "great circle" or "haversine" distance between pairs of po
 
   my $distance = $geoA->distance($geoB); #isa Double
 
-=cut 
+=cut
 
 sub distance {
   my $a        = shift;
@@ -97,7 +101,7 @@ sub distance {
 
 =head1 SEE ALSO
 
-L<Geo::H3>, L<Geo::H3::FFI>
+L<Geo::H3>, L<Geo::H3::FFI>, L<Geo::H3::Index>, L<Geo::H3::FFI::Struct::GeoCoord>
 
 =head1 AUTHOR
 

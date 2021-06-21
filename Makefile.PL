@@ -2,13 +2,13 @@ use ExtUtils::MakeMaker;
 WriteMakefile(
     NAME             => 'Geo::H3',
     VERSION_FROM     => 'lib/Geo/H3.pm',
-    MIN_PERL_VERSION => 5.8,
+    MIN_PERL_VERSION => 5.008,
     BUILD_REQUIRES   => {
                          'Test::More'          => 0, 
                          'Test::Number::Delta' => 0,
                         },
     PREREQ_PM        => {
-                         'Geo::H3::FFI'  => 0,
+                         'Geo::H3::FFI'  => 0.05,
                          'FFI::CheckLib' => 0,
                         },
     ABSTRACT_FROM    => 'lib/Geo/H3.pm',

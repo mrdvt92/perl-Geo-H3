@@ -3,21 +3,26 @@ use strict;
 use warnings;
 use Geo::H3::FFI;
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 our $PACKAGE = __PACKAGE__;
 
 =head1 NAME
 
-Geo::H3::Base - H3 Geospatial Hexagon Indexing System
+Geo::H3::Base - H3 Geospatial Hexagon Indexing System Base Object
 
 =head1 SYNOPSIS
 
+In Package
+
   use base qw{Geo::H3::Base};
-  my $gh3      = Geo::H3->new;
+
+In Code
+
+  my $gh3 = Geo::H3->new;
   
 =head1 DESCRIPTION
 
-Perl API to the H3 Geospatial Hexagon Indexing System C library using libffi and FFI::Platypus.
+H3 Geospatial Hexagon Indexing System Base Object provides new and ffi methods to children objects.
 
 =head1 CONSTRUCTOR
 

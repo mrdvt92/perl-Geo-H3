@@ -5,12 +5,12 @@ use base qw{Geo::H3::Base}; #provides new and ffi
 require Geo::H3::Geo;
 require Geo::H3::GeoBoundary;
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 our $PACKAGE = __PACKAGE__;
 
 =head1 NAME
 
-Geo::H3::Index - H3 Geospatial Hexagon Indexing System
+Geo::H3::Index - H3 Geospatial Hexagon Indexing System Index Object
 
 =head1 SYNOPSIS
 
@@ -19,10 +19,12 @@ Geo::H3::Index - H3 Geospatial Hexagon Indexing System
   my $centroid = $h3->geo;                          #isa Geo::H3::GeoCoord
   my $lat      = $center->lat;                      #isa double WGS-84 Decimal Degrees
   my $lon      = $center->lon;                      #isa double WGS-84 Decimal Degrees
-  
+
 =head1 DESCRIPTION
 
-Perl API to the H3 Geospatial Hexagon Indexing System.
+H3 Geospatial Hexagon Indexing System Index Object provides the primary interface for working with H3 Indexes.
+
+
 
 =head1 CONSTRUCTORS
 
@@ -339,7 +341,7 @@ sub line {
   my $self = shift;
   my $end  = shift;
   return $self->_bless_aref($self->ffi->h3LineWrapper($self->index, $end->index));
-} 
+}
 
 =head2 distance
 
@@ -353,17 +355,6 @@ sub distance {
   my $self = shift;
   my $end   = shift;
   return $self->h3Distance($self->index, $end->index);
-}
-
-=head2 struct
-
-Returns the H3 index as an L<FFI::C> struct in the  L<Geo::H3::FFI::Struct::Index> namespace
-
-=cut
-
-sub struct {
-  my $self = shift;
-  return Geo::H3::FFI::Struct::Index->new({index=>$self->index});
 }
 
 =head1 SEE ALSO

@@ -3,22 +3,22 @@ use strict;
 use warnings;
 use base qw{Geo::H3::Base}; #provides new and ffi
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 our $PACKAGE = __PACKAGE__;
 
 =head1 NAME
 
-Geo::H3::GeoBoundary - H3 Geospatial Hexagon Indexing System
+Geo::H3::GeoBoundary - H3 Geospatial Hexagon Indexing System GeoBoundary Object
 
 =head1 SYNOPSIS
 
   use Geo::H3::GeoBoundary;
   my $gb = Geo::H3::GeoBoundary->new(gb=>$gb); #isa Geo::H3::GeoBoundary
   my $gb = Geo::H3::GeoBoundary->new(gb=>$gb, ffi=>$ffi); #isa Geo::H3::GeoBoundary
-  
+
 =head1 DESCRIPTION
 
-Perl API to the H3 Geospatial Hexagon Indexing System.
+H3 Geospatial Hexagon Indexing System GeoBoundary Object provides coordinates method to extract data from the FFI GeoBoundary object
 
 =head1 CONSTRUCTORS
 
@@ -30,7 +30,7 @@ Perl API to the H3 Geospatial Hexagon Indexing System.
 
 =head2 gb
 
-Returns the H3 GeoBoundray Object as returned from the API
+Returns the H3 GeoBoundary Object from the API as a L<Geo::H3::FFI::Struct::GeoBoundary> object
 
 =cut
 
@@ -41,6 +41,8 @@ sub gb {shift->{'gb'}};
 =head2 coordinates
 
 Returns an OGC compatible closed polygon as an array reference of hashes i.e. [{lat=>$lat, lon=>$lon}, ...].
+
+This coordinates format plugs directly into the format required for many L<Geo::GoogleEarth::Pluggable> objects.
 
 =cut
 
@@ -60,7 +62,7 @@ sub coordinates {
 
 =head1 SEE ALSO
 
-L<Geo::H3>, L<Geo::H3::FFI>
+L<Geo::H3>, L<Geo::H3::FFI::Struct::GeoBoundary>, L<Geo::GoogleEarth::Pluggable>
 
 =head1 AUTHOR
 
