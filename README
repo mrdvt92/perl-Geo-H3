@@ -343,7 +343,7 @@ Returns the longitude in decimal degrees WGS-84
 
 ### struct
 
-Returns a [Geo::H3::FFI::Struct::GeoCoord](https://metacpan.org/pod/Geo::H3::FFI::Struct::GeoCoord) for use in the [Geo::H3::FFI](https://metacpan.org/pod/Geo::H3::FFI) API.
+Returns the Geo object as an [FFI::C](https://metacpan.org/pod/FFI::C) struct in the [Geo::H3::FFI::Struct::GeoCoord](https://metacpan.org/pod/Geo::H3::FFI::Struct::GeoCoord) namespace for use in the [Geo::H3::FFI](https://metacpan.org/pod/Geo::H3::FFI) API.
 
 ### h3
 
