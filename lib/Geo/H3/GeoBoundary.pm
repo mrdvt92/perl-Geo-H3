@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use base qw{Geo::H3::Base}; #provides new and ffi
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 our $PACKAGE = __PACKAGE__;
 
 =head1 NAME

@@ -1,5 +1,8 @@
 Revision history for Perl extension Geo::H3.
 
+0.05 2021-06-20
+  - Updated Makefile.PL to support CPAN testers
+
 0.04 2021-06-19
   - Updated tests to require h3 lib to exists
   - Updated Packages - Gave up on snake case morphing and moving to camel case to match the base API - NOT BACKWARDS COMPATABLE

@@ -1,7 +1,12 @@
 use ExtUtils::MakeMaker;
+printf "Version: %s\n", ExtUtils::MakeMaker->VERSION;
 WriteMakefile(
     NAME           => 'Geo::H3',
     VERSION_FROM   => 'lib/Geo/H3.pm',
+    BUILD_REQUIRES => {
+                       'Test::More'          => 0, 
+                       'Test::Number::Delta' => 0,
+                      },
     PREREQ_PM      => {
                        'Geo::H3::FFI'  => 0,
                        'FFI::CheckLib' => 0,
