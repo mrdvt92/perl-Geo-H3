@@ -2,6 +2,7 @@ Changes
 Makefile.PL
 MANIFEST
 README
+LICENSE
 lib/Geo/H3.pm
 lib/Geo/H3/Base.pm
 lib/Geo/H3/Geo.pm
