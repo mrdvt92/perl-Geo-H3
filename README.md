@@ -18,7 +18,7 @@ Geo::H3 - H3 Geospatial Hexagon Indexing System
     my $center   = $h3->center;                     #isa Geo::H3::GeoCoord
     my $lat      = $center->lat;                    #isa Double WGS-84 Decimal Degrees
     my $lon      = $center->lon;                    #isa Double WGS-84 Decimal Degrees
-    my $distance = $center->distination($geo);      #isa Double meters
+    my $distance = $center->distance($geo);         #isa Double meters
     
 
 ## DESCRIPTION
