@@ -1,0 +1,5 @@
+lib/Geo/H3.pm
+lib/Geo/H3/Index.pm
+lib/Geo/H3/Geo.pm
+lib/Geo/H3/GeoBoundary.pm
+scripts/perl-Geo-H3-geo-to-googleearth.pl
