@@ -8,6 +8,3 @@ do
   pod2markdown $F | sed -e 's/^#/##/' >> README.md
   echo                                >> README.md
 done
-
-echo "Building README"
-cat README.md                          > README

@@ -13,9 +13,6 @@ H3
 API
 haversine
 lon
-pointDistKm
-pointDistM
-pointDistRads
 radians
 ffi
 libffi
