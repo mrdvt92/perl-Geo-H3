@@ -127,10 +127,11 @@ Geo::H3::Index - H3 Geospatial Hexagon Indexing System Index Object
 ## SYNOPSIS
 
     use Geo::H3::Index;
-    my $h3     = Geo::H3::Index->new(index=$index); #isa Geo::H3::Index
-    my $center = $h3->geo;                          #isa Geo::H3::GeoCoord
-    my $lat    = $center->lat;                      #isa double WGS-84 Decimal Degrees
-    my $lon    = $center->lon;                      #isa double WGS-84 Decimal Degrees
+    my $h3       = Geo::H3::Index->new(index => $index); #isa Geo::H3::Index
+    my $center   = $h3->geo;                             #isa Geo::H3::Geo
+    my $lat      = $center->lat;                         #isa double WGS-84 Decimal Degrees
+    my $lon      = $center->lon;                         #isa double WGS-84 Decimal Degrees
+    my $boundary = $h3->geoBoundary;                     #isa Geo::H3::GeoBoundary
 
 ## DESCRIPTION
 
@@ -313,7 +314,7 @@ Geo::H3::Geo - H3 Geospatial Hexagon Indexing System Geo Object
     use Geo::H3::Geo;
     my $geo    = Geo::H3::Geo->new(lat=>$lat, lon=>$lon); #isa Geo::H3::Geo
     my $h3     = $geo->h3($resolution);                   #isa Geo::H3::Index
-    my $center = $h3->center;                             #isa Geo::H3::Geo
+    my $center = $h3->geo;                                #isa Geo::H3::Geo
     my $lat    = $center->lat;                            #isa double WGS-84 Decimal Degrees
     my $lon    = $center->lon;                            #isa double WGS-84 Decimal Degrees
 
