@@ -249,7 +249,7 @@ sub centerChild {
 
 Returns k-rings indexes within k distance of the origin index.
 
-  my $list $index->kRing($k); #isa ARRAY of L<Geo::H3::Index> objects
+  my $list = $index->kRing($k); #isa ARRAY of L<Geo::H3::Index> objects
 
 =cut
 
