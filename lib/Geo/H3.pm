@@ -110,19 +110,6 @@ sub geo {
 
 L<https://h3geo.org/>, L<https://github.com/uber/h3/>, L<Geo::H3::FFI>
 
-=head1 INSTALLATION
-
-L<Geo::H3> has some pretty deep requirements that are not available in many OS repositories.  For RedHat and CentOS 7 users, I have have built RPMs and placed them on my L<Linux Yum Repository|http://linux.davisnetworks.com/el7/>
-
-To install the distribution with all dependencies - CentOS 7
-
-  $ sudo yum install http://linux.davisnetworks.com/el7/updates/mrdvt92-release-8-2.el7.mrdvt92.noarch.rpm
-  $ sudo yum install 'perl(Geo::H3)'
-
-To install the additional dependencies for the example script perl-Geo-H3-geo-to-googleearth.pl
-
-  $ sudo yum install 'perl(Geo::GoogleEarth::Pluggable)' 'perl(Geo::GoogleEarth::Pluggable::Plugin::Styles)' 'perl(Path::Class)'
-
 =head1 AUTHOR
 
 Michael R. Davis
@@ -132,24 +119,6 @@ Michael R. Davis
 MIT License
 
 Copyright (c) 2021 Michael R. Davis
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
 
 =cut
 
