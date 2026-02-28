@@ -44,7 +44,7 @@ The Geo::H3 lib is an Object Oriented wrapper on top of the L<Geo::H3::FFI> libr
 
 =head3 libh3
 
-  - Latitude and longitue cordinates are in radians WGS-84
+  - Latitude and longitude cordinates are in radians WGS-84
   - H3 Index values are handled as uint64 integers
   - GeoCoord values are handled as C structures with lat and lon
   - GeoBoundary values are handled as C structures with num_verts and verts
