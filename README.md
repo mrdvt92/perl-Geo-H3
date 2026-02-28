@@ -23,7 +23,7 @@ Geo::H3 - H3 Geospatial Hexagon Indexing System
 
 ## DESCRIPTION
 
-This Perl distribution provides a Perl Object Oriented interface to the H3 Core Library.  It accesses the H3 C library using [libffi](https://github.com/libffi/libffi) and [FFI::Platypus](https://metacpan.org/pod/FFI::Platypus).
+This Perl distribution provides a Perl Object Oriented interface to the H3 Core Library.  It accesses the H3 C library using [libffi](https://github.com/libffi/libffi) and [FFI::Platypus](https://metacpan.org/pod/FFI%3A%3APlatypus).
 
 H3 is a geospatial indexing system that partitions the world into hexagonal cells.
 
@@ -33,11 +33,11 @@ The H3 Core Library can be installed from Uber's H3 repository on GitHub [https:
 
 ### CONVENTIONS
 
-The Geo::H3 lib is an Object Oriented wrapper on top of the [Geo::H3::FFI](https://metacpan.org/pod/Geo::H3::FFI) library.  Geo::H3 was written as a wrapper so that in the future we are able to re-write against different backends such as the yet to be developed Geo::H3::XS backend.
+The Geo::H3 lib is an Object Oriented wrapper on top of the [Geo::H3::FFI](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AFFI) library.  Geo::H3 was written as a wrapper so that in the future we are able to re-write against different backends such as the yet to be developed Geo::H3::XS backend.
 
 #### libh3
 
-    - Latitude and longitue cordinates are in radians WGS-84
+    - Latitude and longitude cordinates are in radians WGS-84
     - H3 Index values are handled as uint64 integers
     - GeoCoord values are handled as C structures with lat and lon
     - GeoBoundary values are handled as C structures with num_verts and verts
@@ -60,7 +60,7 @@ The Geo::H3 lib is an Object Oriented wrapper on top of the [Geo::H3::FFI](https
 
 ### h3
 
-Returns a [Geo::H3::Index](https://metacpan.org/pod/Geo::H3::Index) object
+Returns a [Geo::H3::Index](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AIndex) object
 
     my $h3 = $gh3->h3(index  => $int);             #isa Geo::H3::Index
     my $h3 = $gh3->h3(string => $string);          #isa Geo::H3::Index
@@ -68,27 +68,14 @@ Returns a [Geo::H3::Index](https://metacpan.org/pod/Geo::H3::Index) object
 
 ### geo
 
-Returns a [Geo::H3::Geo](https://metacpan.org/pod/Geo::H3::Geo) object
+Returns a [Geo::H3::Geo](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AGeo) object
 
     my $geo = $gh3->geo(lat=>$lat_deg, lon=>$lon_deg);         #isa Geo::H3::Geo
     my $geo = Geo::H3::Geo->new(lat=>$lat_deg, lon=>$lon_deg); #isa Geo::H3::Geo
 
 ## SEE ALSO
 
-[https://h3geo.org/](https://h3geo.org/), [https://github.com/uber/h3/](https://github.com/uber/h3/), [Geo::H3::FFI](https://metacpan.org/pod/Geo::H3::FFI)
-
-## INSTALLATION
-
-[Geo::H3](https://metacpan.org/pod/Geo::H3) has some pretty deep requirements that are not available in many OS repositories.  For RedHat and CentOS 7 users, I have have built RPMs and placed them on my [Linux Yum Repository](http://linux.davisnetworks.com/el7/)
-
-To install the distribution with all dependencies - CentOS 7
-
-    $ sudo yum install http://linux.davisnetworks.com/el7/updates/mrdvt92-release-8-2.el7.mrdvt92.noarch.rpm
-    $ sudo yum install 'perl(Geo::H3)'
-
-To install the additional dependencies for the example script perl-Geo-H3-geo-to-googleearth.pl
-
-    $ sudo yum install 'perl(Geo::GoogleEarth::Pluggable)' 'perl(Geo::GoogleEarth::Pluggable::Plugin::Styles)' 'perl(Path::Class)'
+[https://h3geo.org/](https://h3geo.org/), [https://github.com/uber/h3/](https://github.com/uber/h3/), [Geo::H3::FFI](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AFFI)
 
 ## AUTHOR
 
@@ -99,25 +86,6 @@ Michael R. Davis
 MIT License
 
 Copyright (c) 2021 Michael R. Davis
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
 # File: lib/Geo/H3/Index.pm
 
 ## NAME
@@ -197,22 +165,22 @@ Returns the average edge length in meters of indexes at this resolution.
 
 ### geo
 
-Returns the centroid of the index as a [Geo::H3::Geo](https://metacpan.org/pod/Geo::H3::Geo) object.
+Returns the centroid of the index as a [Geo::H3::Geo](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AGeo) object.
 
 ### geoBoundary
 
-Returns the boundary of the index as a [Geo::H3::GeoBoundary](https://metacpan.org/pod/Geo::H3::GeoBoundary) object
+Returns the boundary of the index as a [Geo::H3::GeoBoundary](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AGeoBoundary) object
 
 ### parent
 
-Returns a parent index of this index as a [Geo::H3::Index](https://metacpan.org/pod/Geo::H3::Index) object.
+Returns a parent index of this index as a [Geo::H3::Index](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AIndex) object.
 
     my $parent = $h3->parent;    #next larger resolution
     my $parent = $h3->parent(1); #isa Geo::H3::Index
 
 ### children
 
-Returns the children of the index as an array reference of [Geo::H3::Index](https://metacpan.org/pod/Geo::H3::Index) objects.
+Returns the children of the index as an array reference of [Geo::H3::Index](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AIndex) objects.
 
     my $children = $h3->children(12); #isa ARRAY
     my $children = $h3->children;     #next smaller resolution
@@ -228,7 +196,7 @@ Returns the center child (finer) index contained by this index at given resoluti
 
 Returns k-rings indexes within k distance of the origin index.
 
-    my $list $index->kRing($k); #isa ARRAY of L<Geo::H3::Index> objects
+    my $list = $index->kRing($k); #isa ARRAY of L<Geo::H3::Index> objects
 
 ### kRingDistances
 
@@ -248,7 +216,7 @@ Returns a hash reference where the keys are the H3 index and values are the k di
 
 ### hexRing
 
-Returns the hex ring of this index as an array reference of [Geo::H3::Index](https://metacpan.org/pod/Geo::H3::Index) objects
+Returns the hex ring of this index as an array reference of [Geo::H3::Index](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AIndex) objects
 
     my $hexes = $h3->hexRing; #default k = 1
     my $hexes = $h3->hexRing(5); #isa ARRAY
@@ -261,7 +229,7 @@ Returns whether or not the provided H3Indexes are neighbors.
 
 ### line
 
-Returns the indexes starting at this index to the given end index as array reference of [Geo::H3::Index](https://metacpan.org/pod/Geo::H3::Index) objects.
+Returns the indexes starting at this index to the given end index as array reference of [Geo::H3::Index](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AIndex) objects.
 
     my $list_aref = $start_index->line($end_index);
 
@@ -273,7 +241,7 @@ Returns the distance in grid cells between this index to the given end index.
 
 ## SEE ALSO
 
-[Geo::H3](https://metacpan.org/pod/Geo::H3), [Geo::H3::FFI](https://metacpan.org/pod/Geo::H3::FFI)
+[Geo::H3](https://metacpan.org/pod/Geo%3A%3AH3), [Geo::H3::FFI](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AFFI)
 
 ## AUTHOR
 
@@ -302,7 +270,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
 # File: lib/Geo/H3/Geo.pm
 
 ## NAME
@@ -320,9 +287,9 @@ Geo::H3::Geo - H3 Geospatial Hexagon Indexing System Geo Object
 
 ## DESCRIPTION
 
-H3 Geospatial Hexagon Indexing System Geo Object exposes the lat and lon properties as WGS-84 Decimal Degrees and converts coordinates to radians in the struct method for passing into the[Geo::H3::FFI](https://metacpan.org/pod/Geo::H3::FFI) API as a [Geo::H3::FFI::Struct::GeoCoord](https://metacpan.org/pod/Geo::H3::FFI::Struct::GeoCoord) object.
+H3 Geospatial Hexagon Indexing System Geo Object exposes the lat and lon properties as WGS-84 Decimal Degrees and converts coordinates to radians in the struct method for passing into the[Geo::H3::FFI](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AFFI) API as a [Geo::H3::FFI::Struct::GeoCoord](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AFFI%3A%3AStruct%3A%3AGeoCoord) object.
 
-The methods h3 and distance are wrappers around select [Geo::H3::FFI](https://metacpan.org/pod/Geo::H3::FFI) methods.
+The methods h3 and distance are wrappers around select [Geo::H3::FFI](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AFFI) methods.
 
 ## CONSTRUCTORS
 
@@ -344,11 +311,11 @@ Returns the longitude in decimal degrees WGS-84
 
 ### struct
 
-Returns the Geo object as an [FFI::C](https://metacpan.org/pod/FFI::C) struct in the [Geo::H3::FFI::Struct::GeoCoord](https://metacpan.org/pod/Geo::H3::FFI::Struct::GeoCoord) namespace for use in the [Geo::H3::FFI](https://metacpan.org/pod/Geo::H3::FFI) API.
+Returns the Geo object as an [FFI::C](https://metacpan.org/pod/FFI%3A%3AC) struct in the [Geo::H3::FFI::Struct::GeoCoord](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AFFI%3A%3AStruct%3A%3AGeoCoord) namespace for use in the [Geo::H3::FFI](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AFFI) API.
 
 ### h3
 
-Indexes the location at the specified resolution, returning the index object [Geo::H3::Index](https://metacpan.org/pod/Geo::H3::Index) of the cell containing the location.
+Indexes the location at the specified resolution, returning the index object [Geo::H3::Index](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AIndex) of the cell containing the location.
 
     my $h3 = $geo->h3;    #default resolution is 0
     my $h3 = $geo->h3(7); #isa Geo::H3::H3Index
@@ -363,7 +330,7 @@ Returns in meters the "great circle" or "haversine" distance between pairs of po
 
 ## SEE ALSO
 
-[Geo::H3](https://metacpan.org/pod/Geo::H3), [Geo::H3::FFI](https://metacpan.org/pod/Geo::H3::FFI), [Geo::H3::Index](https://metacpan.org/pod/Geo::H3::Index), [Geo::H3::FFI::Struct::GeoCoord](https://metacpan.org/pod/Geo::H3::FFI::Struct::GeoCoord)
+[Geo::H3](https://metacpan.org/pod/Geo%3A%3AH3), [Geo::H3::FFI](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AFFI), [Geo::H3::Index](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AIndex), [Geo::H3::FFI::Struct::GeoCoord](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AFFI%3A%3AStruct%3A%3AGeoCoord)
 
 ## AUTHOR
 
@@ -392,7 +359,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
 # File: lib/Geo/H3/GeoBoundary.pm
 
 ## NAME
@@ -419,7 +385,7 @@ H3 Geospatial Hexagon Indexing System GeoBoundary Object provides coordinates me
 
 ### gb
 
-Returns the H3 GeoBoundary Object from the API as a [Geo::H3::FFI::Struct::GeoBoundary](https://metacpan.org/pod/Geo::H3::FFI::Struct::GeoBoundary) object
+Returns the H3 GeoBoundary Object from the API as a [Geo::H3::FFI::Struct::GeoBoundary](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AFFI%3A%3AStruct%3A%3AGeoBoundary) object
 
 ## METHODS
 
@@ -427,11 +393,11 @@ Returns the H3 GeoBoundary Object from the API as a [Geo::H3::FFI::Struct::GeoBo
 
 Returns an OGC compatible closed polygon as an array reference of hashes i.e. \[{lat=>$lat, lon=>$lon}, ...\].
 
-This coordinates format plugs directly into the format required for many [Geo::GoogleEarth::Pluggable](https://metacpan.org/pod/Geo::GoogleEarth::Pluggable) objects.
+This coordinates format plugs directly into the format required for many [Geo::GoogleEarth::Pluggable](https://metacpan.org/pod/Geo%3A%3AGoogleEarth%3A%3APluggable) objects.
 
 ## SEE ALSO
 
-[Geo::H3](https://metacpan.org/pod/Geo::H3), [Geo::H3::FFI::Struct::GeoBoundary](https://metacpan.org/pod/Geo::H3::FFI::Struct::GeoBoundary), [Geo::GoogleEarth::Pluggable](https://metacpan.org/pod/Geo::GoogleEarth::Pluggable)
+[Geo::H3](https://metacpan.org/pod/Geo%3A%3AH3), [Geo::H3::FFI::Struct::GeoBoundary](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AFFI%3A%3AStruct%3A%3AGeoBoundary), [Geo::GoogleEarth::Pluggable](https://metacpan.org/pod/Geo%3A%3AGoogleEarth%3A%3APluggable)
 
 ## AUTHOR
 
@@ -460,7 +426,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
 # File: scripts/perl-Geo-H3-geo-to-googleearth.pl
 
 ## NAME
@@ -498,7 +463,7 @@ KML output pass a file name with "kml" extension.
 
 ## SEE ALSO
 
-[Geo::GoogleEarth::Pluggable](https://metacpan.org/pod/Geo::GoogleEarth::Pluggable), [Geo::GoogleEarth::Pluggable::Plugin::Styles](https://metacpan.org/pod/Geo::GoogleEarth::Pluggable::Plugin::Styles), [Path::Class](https://metacpan.org/pod/Path::Class)
+[Geo::GoogleEarth::Pluggable](https://metacpan.org/pod/Geo%3A%3AGoogleEarth%3A%3APluggable), [Geo::GoogleEarth::Pluggable::Plugin::Styles](https://metacpan.org/pod/Geo%3A%3AGoogleEarth%3A%3APluggable%3A%3APlugin%3A%3AStyles), [Path::Class](https://metacpan.org/pod/Path%3A%3AClass)
 
 ## AUTHOR
 
@@ -527,4 +492,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
