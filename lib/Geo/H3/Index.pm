@@ -29,7 +29,7 @@ H3 Geospatial Hexagon Indexing System Index Object provides the primary interfac
 
 =head2 new
 
-  my $geo = Geo::H3::Index->new(index=>$index);
+  my $h3 = Geo::H3::Index->new(index=>$index);
 
 =cut
 
