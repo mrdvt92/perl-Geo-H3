@@ -86,6 +86,7 @@ Michael R. Davis
 MIT License
 
 Copyright (c) 2021 Michael R. Davis
+
 # File: lib/Geo/H3/Index.pm
 
 ## NAME
@@ -109,7 +110,7 @@ H3 Geospatial Hexagon Indexing System Index Object provides the primary interfac
 
 ### new
 
-    my $geo = Geo::H3::Index->new(index=>$index);
+    my $h3 = Geo::H3::Index->new(index=>$index);
 
 ## PROPERTIES
 
@@ -252,6 +253,7 @@ Michael R. Davis
 MIT License
 
 Copyright (c) 2021 Michael R. Davis
+
 # File: lib/Geo/H3/Geo.pm
 
 ## NAME
@@ -323,6 +325,7 @@ Michael R. Davis
 MIT License
 
 Copyright (c) 2021 Michael R. Davis
+
 # File: lib/Geo/H3/GeoBoundary.pm
 
 ## NAME
@@ -372,6 +375,7 @@ Michael R. Davis
 MIT License
 
 Copyright (c) 2021 Michael R. Davis
+
 # File: scripts/perl-Geo-H3-geo-to-googleearth.pl
 
 ## NAME
@@ -420,3 +424,4 @@ Michael R. Davis
 MIT License
 
 Copyright (c) 2021 Michael R. Davis
+
