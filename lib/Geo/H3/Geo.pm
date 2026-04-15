@@ -4,7 +4,7 @@ use warnings;
 use base qw{Geo::H3::Base}; #provides new, ffi, and Geo::H3::FFI::Struct::GeoCoord
 require Geo::H3::Index;
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 our $PACKAGE = __PACKAGE__;
 
 =head1 NAME

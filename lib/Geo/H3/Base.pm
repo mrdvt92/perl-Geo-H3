@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Geo::H3::FFI 0.07;
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 our $PACKAGE = __PACKAGE__;
 
 =head1 NAME

@@ -25,7 +25,7 @@ Geo::H3 - H3 Geospatial Hexagon Indexing System
 
 This Perl distribution provides a Perl Object Oriented interface to the H3 Core Library.  It accesses the H3 C library using [libffi](https://github.com/libffi/libffi) and [FFI::Platypus](https://metacpan.org/pod/FFI%3A%3APlatypus).
 
-H3 is a geospatial indexing system that partitions the world into hexagonal cells. Please note that a very few number of cells are pentagons but we will use the terms hex or  hexagon to include pentagons.
+H3 is a geospatial indexing system that partitions the world into hexagonal cells. Please note that a very few number of cells are pentagons but we use the terms hex or hexagon to include pentagons.
 
 The H3 Core Library implements the H3 grid system. It includes functions for converting from latitude and longitude coordinates to the containing H3 cell, finding the center of H3 cells, finding the boundary geometry of H3 cells, finding neighbors of H3 cells, and more.
 
@@ -44,7 +44,7 @@ The Geo::H3 lib is an Object Oriented wrapper on top of the [Geo::H3::FFI](https
 
 #### Geo::H3::FFI
 
-    - Latitude and Longitue cordinates are in radians WGS-84
+    - Latitude and Longitude cordinates are in radians WGS-84
     - H3 Index values are handled as uint64 integers
     - GeoCoord values are handled as Geo::H3::FFI::Struct::GeoCoord objects
     - GeoBoundary values are handled as Geo::H3::FFI::Struct::GeoBoundary objects
@@ -80,7 +80,7 @@ Returns the [Geo::H3::FFI](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AFFI) object
 
 ## LIMITATIONS
 
-This package uses the naming convention of version 3.x of the Uber H3 library.  The organization that maintains the open source Uber H3 library has not maintained backward compatability in version 4.x.  This Perl distribution currently sees no reason to support the 4.x vesion of the Uber H3 library as the 3.7.2 release is stable and full featured.
+This package uses the naming convention of version 3.x of the Uber H3 library.  The organization that maintains the open source Uber H3 library has not maintained backward compatibility in version 4.x.  This Perl distribution currently sees no reason to support the 4.x version of the Uber H3 library as the 3.7.2 release is stable and full featured.
 
 ## SEE ALSO
 
@@ -219,9 +219,11 @@ Returns k-rings hexes within k distance of the origin hex.
 
 Returns a hash reference where the keys are the H3 hex and values are the k distance for the given hex and k value.
 
-    my $distances_href = $hex->kRingDistances($k);
+    my $distances_aref = $hex->kRingDistances($k); #isa ARRAY-ARRAY [ [$hex1, $dist1], [$hex2, $dist2], ... [$hexN, $distN] ]
 
 ### hexRange
+
+Returns an array reference of hexes within k distance of the hex object. k-ring 0 is defined as the origin index, k-ring 1 is defined as k-ring 0 and all neighboring indexes, and so on.
 
     my $hexes_aref = $hex->hexRange($k);
 
@@ -229,7 +231,7 @@ Returns a hash reference where the keys are the H3 hex and values are the k dist
 
 Returns a hash reference where the keys are the H3 uint64 and values are the k distance for the given hex and k value.
 
-    my $hash = $hex->hexRangeDistances($k);
+    my $hash = $hex->hexRangeDistances($k); #isa ARRAY-ARRAY [ [$hex1, $dist1], [$hex2, $dist2], ... [$hexN, $distN] ]
 
 ### hexRing
 
@@ -240,7 +242,7 @@ Returns the hex ring of this hex as an array reference of [Geo::H3::Index](https
 
 ### areNeighbors
 
-Returns whether or not the provided H3Indexes are neighbors.
+Returns whether or not the provided hex object are neighbors.
 
     my $areNeighbors = $start_hex->areNeighbors($end_hex);
 

@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 use Test::Number::Delta;
-use Test::More tests => 41;
+use Test::More tests => 43;
 use FFI::CheckLib qw{find_lib};
 my $lib = find_lib(lib=>'h3');
 
@@ -64,6 +64,8 @@ SKIP: {
     is($h3->maxFaceCount, 2, 'maxFaceCount');
     delta_within($h3->area, 14577.4268473998, 1e-10, 'area');
     is($h3->areaApprox, 15047.5, 'areaApprox');
+    is($h3->areNeighbors(Geo::H3::Index->new(string=>"8a2aaaa2e767fff")), 1, 'areNeighbors'); #kring 1
+    is($h3->areNeighbors(Geo::H3::Index->new(string=>"8a2aaaa2e0dffff")), 0, 'areNeighbors'); #kring 2
     {
       local $TODO = "Fix exactEdgeLengthM in Geo::H3::FFI";
       is($h3->edgeLength, 99999, 'edgeLength');
