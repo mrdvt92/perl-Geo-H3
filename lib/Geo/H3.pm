@@ -5,7 +5,7 @@ use base qw{Geo::H3::Base}; #provides new and ffi
 use Geo::H3::Index;
 use Geo::H3::Geo;
 
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 our $PACKAGE = __PACKAGE__;
 
 =head1 NAME
@@ -17,11 +17,11 @@ Geo::H3 - H3 Geospatial Hexagon Indexing System
   use Geo::H3;
   my $gh3      = Geo::H3->new;
   
-  my $h3       = $gh3->h3(index  => $int);        #isa Geo::H3::Index
-  my $h3       = $gh3->h3(string => $string);     #isa Geo::H3::Index
+  my $hex      = $gh3->h3(uint64 => $int);        #isa Geo::H3::Index
+  my $hex      = $gh3->h3(string => $string);     #isa Geo::H3::Index
 
   my $geo      = $gh3->geo(lat=>$lat, lon=>$lon); #isa Geo::H3::Geo
-  my $h3       = $geo->h3($resolution);           #isa Geo::H3::Index
+  my $hex      = $geo->h3($resolution);           #isa Geo::H3::Index
 
   my $center   = $h3->center;                     #isa Geo::H3::GeoCoord
   my $lat      = $center->lat;                    #isa Double WGS-84 Decimal Degrees
@@ -32,7 +32,7 @@ Geo::H3 - H3 Geospatial Hexagon Indexing System
 
 This Perl distribution provides a Perl Object Oriented interface to the H3 Core Library.  It accesses the H3 C library using L<libffi|https://github.com/libffi/libffi> and L<FFI::Platypus>.
 
-H3 is a geospatial indexing system that partitions the world into hexagonal cells.
+H3 is a geospatial indexing system that partitions the world into hexagonal cells. Please note that a very few number of cells are pentagons but we use the terms hex or hexagon to include pentagons.
 
 The H3 Core Library implements the H3 grid system. It includes functions for converting from latitude and longitude coordinates to the containing H3 cell, finding the center of H3 cells, finding the boundary geometry of H3 cells, finding neighbors of H3 cells, and more.
 
@@ -51,7 +51,7 @@ The Geo::H3 lib is an Object Oriented wrapper on top of the L<Geo::H3::FFI> libr
 
 =head3 Geo::H3::FFI
 
-  - Latitude and Longitue cordinates are in radians WGS-84
+  - Latitude and Longitude cordinates are in radians WGS-84
   - H3 Index values are handled as uint64 integers
   - GeoCoord values are handled as Geo::H3::FFI::Struct::GeoCoord objects
   - GeoBoundary values are handled as Geo::H3::FFI::Struct::GeoBoundary objects
@@ -69,25 +69,18 @@ The Geo::H3 lib is an Object Oriented wrapper on top of the L<Geo::H3::FFI> libr
 
 Returns a L<Geo::H3::Index> object
 
-  my $h3 = $gh3->h3(index  => $int);             #isa Geo::H3::Index
-  my $h3 = $gh3->h3(string => $string);          #isa Geo::H3::Index
-  my $h3 = Geo::H3::Index->new(index => $index); #isa Geo::H3::Index
+  my $hex = $gh3->h3(unit64 => $int);                  #isa Geo::H3::Index
+  my $hex = $gh3->h3(string => $string);               #isa Geo::H3::Index
+  my $hex = Geo::H3::Index->new(uint64 => $h3_uint64); #isa Geo::H3::Index
+  my $hex = Geo::H3::Index->new(string => $h3_string); #isa Geo::H3::Index
 
 =cut
 
 sub h3 {
-  my $self   = shift;
-  my %data   = @_;
-  my $index  = $data{'index'};
-  my $string = $data{'string'};
-  if ($index) {
-    return Geo::H3::Index->new(index => $index, ffi => $self->ffi);
-  } elsif ($string) {
-    my $index = $self->ffi->stringToH3Wrapper($string) or die("Error: package $PACKAGE constructor h3 string invalid");
-    return Geo::H3::Index->new(index => $index, ffi => $self->ffi);
-  } else {
-    die("Error: package $PACKAGE constructor h3 requires either index or string");
-  }
+  my $self     = shift;
+  my %data     = @_;
+  $data{'ffi'} = $self->ffi unless exists $data{'ffi'};
+  return Geo::H3::Index->new(%data);
 }
 
 =head2 geo
@@ -106,9 +99,17 @@ sub geo {
   return Geo::H3::Geo->new(%data);
 };
 
+=head2 ffi
+
+Returns the L<Geo::H3::FFI> object.
+
+=head1 LIMITATIONS
+
+This package uses the naming convention of version 3.x of the Uber H3 library.  The organization that maintains the open source Uber H3 library has not maintained backward compatibility in version 4.x.  This Perl distribution currently sees no reason to support the 4.x version of the Uber H3 library as the 3.7.2 release is stable and full featured.
+
 =head1 SEE ALSO
 
-L<https://h3geo.org/>, L<https://github.com/uber/h3/>, L<Geo::H3::FFI>
+L<https://h3geo.org/docs/3.x/>, L<https://github.com/uber/h3/tree/stable-3.x>, L<Geo::H3::FFI>
 
 =head1 AUTHOR
 

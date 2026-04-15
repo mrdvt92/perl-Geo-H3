@@ -4,7 +4,7 @@ use warnings;
 use base qw{Geo::H3::Base}; #provides new, ffi, and Geo::H3::FFI::Struct::GeoCoord
 require Geo::H3::Index;
 
-our $VERSION = '0.06';
+our $VERSION = '0.08';
 our $PACKAGE = __PACKAGE__;
 
 =head1 NAME
@@ -67,7 +67,7 @@ sub struct {
 
 =head2 h3
 
-Indexes the location at the specified resolution, returning the index object L<Geo::H3::Index> of the cell containing the location.
+Indexes the location at the specified resolution, returning the hex object L<Geo::H3::Index> of the cell containing the location.
 
   my $h3 = $geo->h3;    #default resolution is 0
   my $h3 = $geo->h3(7); #isa Geo::H3::H3Index
@@ -77,11 +77,11 @@ Returns undef on error.
 =cut
 
 sub h3 {
-  my $self  = shift;
-  my $res   = shift || 0;
-  my $index = $self->ffi->geoToH3Wrapper(lat=>$self->lat, lon=>$self->lon, resolution=>$res, uom=>"deg")
-                or die("Error: API geoToH3Wrapper return index invalid");
-  return  Geo::H3::Index->new(index=>$index);
+  my $self   = shift;
+  my $res    = shift || 0;
+  my $uint64 = $self->ffi->geoToH3Wrapper(lat=>$self->lat, lon=>$self->lon, resolution=>$res, uom=>"deg")
+                or die("Error: API geoToH3Wrapper returned an invalid value");
+  return Geo::H3::Index->new(uint64 => $uint64, ffi=>$self->ffi);
 }
 
 =head2 distance

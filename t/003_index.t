@@ -2,12 +2,12 @@
 use strict;
 use warnings;
 use Test::Number::Delta;
-use Test::More tests => 38;
+use Test::More tests => 41;
 use FFI::CheckLib qw{find_lib};
 my $lib = find_lib(lib=>'h3');
 
 SKIP: {
-  skip 'libh3 not available', 38 unless $lib;
+  skip 'libh3 not available', 41 unless $lib;
   
   require_ok 'Geo::H3::Index';
 
@@ -37,17 +37,19 @@ SKIP: {
     #║ 10 Child   ║ 0
     #╚════════════╝
 
-    my $index  = 622247346431098879;
+    my $uint64  = 622247346431098879;
     my $string = '8a2aaaa2e747fff';
-    my $h3     = Geo::H3::Index->new(index=>$index);
+    my $h3     = Geo::H3::Index->new(uint64=>$uint64);
     isa_ok($h3, 'Geo::H3::Index');
     can_ok($h3, 'new');
     can_ok($h3, 'index');
+    can_ok($h3, 'uint64');
     can_ok($h3, 'string');
     can_ok($h3, 'geo');
     can_ok($h3, 'resolution');
     can_ok($h3, 'geoBoundary');
-    is($h3->index, $index, 'index');
+    is($h3->index, $uint64, 'index');
+    is($h3->uint64, $uint64, 'uint64');
     is($h3->string, $string, 'string');
     is($h3->resolution, 10, 'resolution');
     isa_ok($h3->geo, 'Geo::H3::Geo', 'geo');
@@ -80,9 +82,9 @@ SKIP: {
     #║  2 Child   ║ 0
     #╚════════════╝
 
-    my $index  = 585961082523222015;
+    my $uint64  = 585961082523222015;
     my $string = '821c07fffffffff';
-    my $h3     = Geo::H3::Index->new(index=>$index);
+    my $h3     = Geo::H3::Index->new(index=>$uint64); #Old index API
     isa_ok($h3, 'Geo::H3::Index');
     my $gb     = $h3->geoBoundary;
     isa_ok($gb, 'Geo::H3::GeoBoundary');
@@ -90,7 +92,8 @@ SKIP: {
     my $coordinates = $gb->coordinates;
     isa_ok($coordinates, 'ARRAY');
     is(scalar(@$coordinates), 6, 'polygon verts');
-    is($h3->index, $index, 'index');
+    is($h3->index, $uint64, 'index');
+    is($h3->uint64, $uint64, 'uint64');
     is($h3->string, $string, 'string');
     is($h3->resolution, 2, 'resolution');
     is($h3->parent->resolution, 1, 'resolution');

@@ -73,6 +73,10 @@ __END__
 
 perl-Geo-H3-geo-to-googleearth.pl - Creates a Google Earth document from Coordinates, H3, Parent, Children and Hex Ring.
 
+=head1 SYNTAX
+
+  perl-Geo-H3-geo-to-googleearth.pl --lat=[degrees] --lon=[degrees] --resolution=[hex_resolution] --output=[output_filename]
+
 =head1 EXAMPLES
 
 Default creates output.kmz
@@ -106,14 +110,10 @@ KML output pass a file name with "kml" extension.
 
 L<Geo::GoogleEarth::Pluggable>, L<Geo::GoogleEarth::Pluggable::Plugin::Styles>, L<Path::Class>
 
-=head1 AUTHOR
-
-Michael R. Davis
-
 =head1 COPYRIGHT AND LICENSE
 
 MIT License
 
-Copyright (c) 2021 Michael R. Davis
+Copyright (c) 2026 Michael R. Davis
 
 =cut

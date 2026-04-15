@@ -9,11 +9,11 @@ Geo::H3 - H3 Geospatial Hexagon Indexing System
     use Geo::H3;
     my $gh3      = Geo::H3->new;
     
-    my $h3       = $gh3->h3(index  => $int);        #isa Geo::H3::Index
-    my $h3       = $gh3->h3(string => $string);     #isa Geo::H3::Index
+    my $hex      = $gh3->h3(uint64 => $int);        #isa Geo::H3::Index
+    my $hex      = $gh3->h3(string => $string);     #isa Geo::H3::Index
 
     my $geo      = $gh3->geo(lat=>$lat, lon=>$lon); #isa Geo::H3::Geo
-    my $h3       = $geo->h3($resolution);           #isa Geo::H3::Index
+    my $hex      = $geo->h3($resolution);           #isa Geo::H3::Index
 
     my $center   = $h3->center;                     #isa Geo::H3::GeoCoord
     my $lat      = $center->lat;                    #isa Double WGS-84 Decimal Degrees
@@ -25,7 +25,7 @@ Geo::H3 - H3 Geospatial Hexagon Indexing System
 
 This Perl distribution provides a Perl Object Oriented interface to the H3 Core Library.  It accesses the H3 C library using [libffi](https://github.com/libffi/libffi) and [FFI::Platypus](https://metacpan.org/pod/FFI%3A%3APlatypus).
 
-H3 is a geospatial indexing system that partitions the world into hexagonal cells.
+H3 is a geospatial indexing system that partitions the world into hexagonal cells. Please note that a very few number of cells are pentagons but we will use the terms hex or  hexagon to include pentagons.
 
 The H3 Core Library implements the H3 grid system. It includes functions for converting from latitude and longitude coordinates to the containing H3 cell, finding the center of H3 cells, finding the boundary geometry of H3 cells, finding neighbors of H3 cells, and more.
 
@@ -62,9 +62,10 @@ The Geo::H3 lib is an Object Oriented wrapper on top of the [Geo::H3::FFI](https
 
 Returns a [Geo::H3::Index](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AIndex) object
 
-    my $h3 = $gh3->h3(index  => $int);             #isa Geo::H3::Index
-    my $h3 = $gh3->h3(string => $string);          #isa Geo::H3::Index
-    my $h3 = Geo::H3::Index->new(index => $index); #isa Geo::H3::Index
+    my $hex = $gh3->h3(unit64 => $int);                  #isa Geo::H3::Index
+    my $hex = $gh3->h3(string => $string);               #isa Geo::H3::Index
+    my $hex = Geo::H3::Index->new(uint64 => $h3_uint64); #isa Geo::H3::Index
+    my $hex = Geo::H3::Index->new(string => $h3_string); #isa Geo::H3::Index
 
 ### geo
 
@@ -73,9 +74,17 @@ Returns a [Geo::H3::Geo](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AGeo) object
     my $geo = $gh3->geo(lat=>$lat_deg, lon=>$lon_deg);         #isa Geo::H3::Geo
     my $geo = Geo::H3::Geo->new(lat=>$lat_deg, lon=>$lon_deg); #isa Geo::H3::Geo
 
+### ffi
+
+Returns the [Geo::H3::FFI](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AFFI) object.
+
+## LIMITATIONS
+
+This package uses the naming convention of version 3.x of the Uber H3 library.  The organization that maintains the open source Uber H3 library has not maintained backward compatability in version 4.x.  This Perl distribution currently sees no reason to support the 4.x vesion of the Uber H3 library as the 3.7.2 release is stable and full featured.
+
 ## SEE ALSO
 
-[https://h3geo.org/](https://h3geo.org/), [https://github.com/uber/h3/](https://github.com/uber/h3/), [Geo::H3::FFI](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AFFI)
+[https://h3geo.org/docs/3.x/](https://h3geo.org/docs/3.x/), [https://github.com/uber/h3/tree/stable-3.x](https://github.com/uber/h3/tree/stable-3.x), [Geo::H3::FFI](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AFFI)
 
 ## AUTHOR
 
@@ -96,7 +105,7 @@ Geo::H3::Index - H3 Geospatial Hexagon Indexing System Index Object
 ## SYNOPSIS
 
     use Geo::H3::Index;
-    my $h3       = Geo::H3::Index->new(index => $index); #isa Geo::H3::Index
+    my $h3       = Geo::H3::Index->new(string => $string); #isa Geo::H3::Index
     my $center   = $h3->geo;                             #isa Geo::H3::Geo
     my $lat      = $center->lat;                         #isa double WGS-84 Decimal Degrees
     my $lon      = $center->lon;                         #isa double WGS-84 Decimal Degrees
@@ -110,114 +119,121 @@ H3 Geospatial Hexagon Indexing System Index Object provides the primary interfac
 
 ### new
 
-    my $h3 = Geo::H3::Index->new(index=>$index);
+    my $h3 = Geo::H3::Index->new(string=>$string);
+    my $h3 = Geo::H3::Index->new(uint64=>$uint64);
 
 ## PROPERTIES
-
-### index
-
-Returns the H3 index uint64 representation
 
 ### string
 
 Returns the H3 string representation.
 
+### uint64
+
+Returns the H3 uint64 representation.
+
+### index (DEPRECATED)
+
+Returns the H3 uint64 representation.
+
+Please note that \`index()\` was difficult to remember consistently.  Therefore, I plan to move to the \`uint64()\` property moving forward while maintaining backwards compatibility.
+
 ### resolution
 
-Returns the resolution of the index.
+Returns the resolution of the hex.
 
 ### baseCell
 
-Returns the base cell number of the index.
+Returns the base cell number of the hex.
 
 ### isValid
 
-Returns non-zero if this is a valid H3 index.
+Returns non-zero if this is a valid H3 hex.
 
 ### isResClassIII
 
-Returns non-zero if this index has a resolution with Class III orientation.
+Returns non-zero if this hex has a resolution with Class III orientation.
 
 ### isPentagon
 
-Returns non-zero if this index represents a pentagonal cell.
+Returns non-zero if this hex represents a pentagonal cell.
 
 ### maxFaceCount
 
-Returns the maximum number of icosahedron faces the given H3 index may intersect.
+Returns the maximum number of icosahedron faces the given H3 hex may intersect.
 
 ### area
 
-Returns the area in square meters of this index.
+Returns the area in square meters of this hex.
 
 ### areaApprox
 
-Returns the average area in square meters of indexes at this resolution.
+Returns the average area in square meters of hexes at this resolution.
 
 ### edgeLength
 
-Returns the exact edge length in meters of this index.
+Returns the exact edge length in meters of this hex.
 
 ### edgeLengthApprox
 
-Returns the average edge length in meters of indexes at this resolution.
+Returns the average edge length in meters of hexes at this resolution.
 
 ## METHODS
 
 ### geo
 
-Returns the centroid of the index as a [Geo::H3::Geo](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AGeo) object.
+Returns the centroid of the hex as a [Geo::H3::Geo](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AGeo) object.
 
 ### geoBoundary
 
-Returns the boundary of the index as a [Geo::H3::GeoBoundary](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AGeoBoundary) object
+Returns the boundary of the hex as a [Geo::H3::GeoBoundary](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AGeoBoundary) object
 
 ### parent
 
-Returns a parent index of this index as a [Geo::H3::Index](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AIndex) object.
+Returns a parent hex of this hex as a [Geo::H3::Index](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AIndex) object.
 
     my $parent = $h3->parent;    #next larger resolution
     my $parent = $h3->parent(1); #isa Geo::H3::Index
 
 ### children
 
-Returns the children of the index as an array reference of [Geo::H3::Index](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AIndex) objects.
+Returns the children of the hex as an array reference of [Geo::H3::Index](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AIndex) objects.
 
     my $children = $h3->children(12); #isa ARRAY
     my $children = $h3->children;     #next smaller resolution
 
 ### centerChild
 
-Returns the center child (finer) index contained by this index at given resolution.
+Returns the center child (finer) hex contained by this hex at given resolution.
 
-    my $centerChild = $index->centerChild;      #isa Geo::H3::Index
-    my $centerChild = $index->centerChild(12);  #isa Geo::H3::Index
+    my $centerChild = $hex->centerChild;      #isa Geo::H3::Index
+    my $centerChild = $hex->centerChild(12);  #isa Geo::H3::Index
 
 ### kRing
 
-Returns k-rings indexes within k distance of the origin index.
+Returns k-rings hexes within k distance of the origin hex.
 
-    my $list = $index->kRing($k); #isa ARRAY of L<Geo::H3::Index> objects
+    my $hexes_aref = $hex->kRing($k); #isa ARRAY of L<Geo::H3::Index> objects
 
 ### kRingDistances
 
-Returns a hash reference where the keys are the H3 index and values are the k distance for the given index and k value.
+Returns a hash reference where the keys are the H3 hex and values are the k distance for the given hex and k value.
 
-    my $hash = $index->kRingDistances($k);
+    my $distances_href = $hex->kRingDistances($k);
 
 ### hexRange
 
-    my $indexes = $index->hexRange($k);
+    my $hexes_aref = $hex->hexRange($k);
 
 ### hexRangeDistances
 
-Returns a hash reference where the keys are the H3 index and values are the k distance for the given index and k value.
+Returns a hash reference where the keys are the H3 uint64 and values are the k distance for the given hex and k value.
 
-    my $hash = $index->hexRangeDistances($k);
+    my $hash = $hex->hexRangeDistances($k);
 
 ### hexRing
 
-Returns the hex ring of this index as an array reference of [Geo::H3::Index](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AIndex) objects
+Returns the hex ring of this hex as an array reference of [Geo::H3::Index](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AIndex) objects
 
     my $hexes = $h3->hexRing; #default k = 1
     my $hexes = $h3->hexRing(5); #isa ARRAY
@@ -226,19 +242,19 @@ Returns the hex ring of this index as an array reference of [Geo::H3::Index](htt
 
 Returns whether or not the provided H3Indexes are neighbors.
 
-    my $areNeighbors = $start_index->areNeighbors($end_index);
+    my $areNeighbors = $start_hex->areNeighbors($end_hex);
 
 ### line
 
-Returns the indexes starting at this index to the given end index as array reference of [Geo::H3::Index](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AIndex) objects.
+Returns the hexes starting at this hex to the given end hex as array reference of [Geo::H3::Index](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AIndex) objects.
 
-    my $list_aref = $start_index->line($end_index);
+    my $list_aref = $start_hex_obj->line($end_hex_obj);
 
 ### distance
 
-Returns the distance in grid cells between this index to the given end index.
+Returns the distance in grid cells between this hex to the given end hex.
 
-    my $distance = $start_index->distance($end_index);
+    my $distance = $start_hex_obj->distance($end_hex_obj);
 
 ## SEE ALSO
 
@@ -299,7 +315,7 @@ Returns the Geo object as an [FFI::C](https://metacpan.org/pod/FFI%3A%3AC) struc
 
 ### h3
 
-Indexes the location at the specified resolution, returning the index object [Geo::H3::Index](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AIndex) of the cell containing the location.
+Indexes the location at the specified resolution, returning the hex object [Geo::H3::Index](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AIndex) of the cell containing the location.
 
     my $h3 = $geo->h3;    #default resolution is 0
     my $h3 = $geo->h3(7); #isa Geo::H3::H3Index
@@ -335,8 +351,8 @@ Geo::H3::GeoBoundary - H3 Geospatial Hexagon Indexing System GeoBoundary Object
 ## SYNOPSIS
 
     use Geo::H3::GeoBoundary;
-    my $gb = Geo::H3::GeoBoundary->new(gb=>$gb); #isa Geo::H3::GeoBoundary
-    my $gb = Geo::H3::GeoBoundary->new(gb=>$gb, ffi=>$ffi); #isa Geo::H3::GeoBoundary
+    my $GeoBoundary = Geo::H3::GeoBoundary->new(gb=>$gb);            #isa Geo::H3::GeoBoundary
+    my $GeoBoundary = Geo::H3::GeoBoundary->new(gb=>$gb, ffi=>$ffi); #isa Geo::H3::GeoBoundary
 
 ## DESCRIPTION
 
@@ -346,13 +362,15 @@ H3 Geospatial Hexagon Indexing System GeoBoundary Object provides coordinates me
 
 ### new
 
-    my $geo = Geo::H3::GeoBoundary->new(gb=>$gb);
+    my $GeoBoundary = Geo::H3::GeoBoundary->new(gb=>$gb);
 
 ## PROPERTIES
 
 ### gb
 
 Returns the H3 GeoBoundary Object from the API as a [Geo::H3::FFI::Struct::GeoBoundary](https://metacpan.org/pod/Geo%3A%3AH3%3A%3AFFI%3A%3AStruct%3A%3AGeoBoundary) object
+
+    my $struct = $GeoBoundary->gb; #isa Geo::H3::FFI::Struct::GeoBoundary
 
 ## METHODS
 
@@ -381,6 +399,10 @@ Copyright (c) 2021 Michael R. Davis
 ## NAME
 
 perl-Geo-H3-geo-to-googleearth.pl - Creates a Google Earth document from Coordinates, H3, Parent, Children and Hex Ring.
+
+## SYNTAX
+
+    perl-Geo-H3-geo-to-googleearth.pl --lat=[degrees] --lon=[degrees] --resolution=[hex_resolution] --output=[output_filename]
 
 ## EXAMPLES
 
@@ -415,13 +437,9 @@ KML output pass a file name with "kml" extension.
 
 [Geo::GoogleEarth::Pluggable](https://metacpan.org/pod/Geo%3A%3AGoogleEarth%3A%3APluggable), [Geo::GoogleEarth::Pluggable::Plugin::Styles](https://metacpan.org/pod/Geo%3A%3AGoogleEarth%3A%3APluggable%3A%3APlugin%3A%3AStyles), [Path::Class](https://metacpan.org/pod/Path%3A%3AClass)
 
-## AUTHOR
-
-Michael R. Davis
-
 ## COPYRIGHT AND LICENSE
 
 MIT License
 
-Copyright (c) 2021 Michael R. Davis
+Copyright (c) 2026 Michael R. Davis
 
