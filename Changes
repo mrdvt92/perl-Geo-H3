@@ -3,7 +3,7 @@ Revision history for Perl extension Geo::H3.
 0.10 2026-04-17
   - Fixed hex->edgeLength call to FFI - fixes #1
   - Added hex->edgeLengthAverage method
-  - Fixed test skip count for CAPN testers
+  - Fixed test skip count for CPAN testers
 
 0.09 2026-04-14
   - Fixed hex->areNeighbors return value
