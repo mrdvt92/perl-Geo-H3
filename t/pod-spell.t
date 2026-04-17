@@ -57,3 +57,4 @@ KMZ
 kmz
 WGS
 Uber
+edgeLengthAverage
