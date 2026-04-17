@@ -6,7 +6,7 @@ require Geo::H3::Geo;
 require Geo::H3::GeoBoundary;
 use List::Util qw{sum};
 
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 our $PACKAGE = __PACKAGE__;
 
 =head1 NAME

@@ -1,5 +1,5 @@
 Name:           perl-Geo-H3
-Version:        0.09
+Version:        0.10
 Release:        1%{?dist}
 Summary:        H3 Geospatial Hexagon Indexing System
 License:        MIT
